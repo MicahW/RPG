@@ -22,6 +22,9 @@ public class Animation {
 
     // Number of frames in the animation image.
     private int numberOfFrames;
+    
+    //row to look at
+    private int animationNumber;
 
     // Amount of time between frames in milliseconds. (How many time in milliseconds will be one frame shown before showing next frame?)
     private long frameTime;
@@ -64,6 +67,7 @@ public class Animation {
      * @param animImage Image of animation.
      * @param frameWidth Width of the frame in animation image "animImage".
      * @param frameHeight Height of the frame in animation image "animImage" - height of the animation image "animImage".
+     * @param animationNumber, the row to look at on 2d spritesheet
      * @param numberOfFrames Number of frames in the animation image.
      * @param frameTime Amount of time that each frame will be shown before moving to the next one in milliseconds.
      * @param loop Should animation repeat in loop?
@@ -71,11 +75,12 @@ public class Animation {
      * @param y y coordinate. Where to draw the animation on the screen?
      * @param showDelay In milliseconds. How long to wait before starting the animation and displaying it?
      */
-    public Animation(BufferedImage animImage, int frameWidth, int frameHeight, int numberOfFrames, long frameTime, boolean loop, int x, int y, long showDelay)
+    public Animation(BufferedImage animImage, int frameWidth, int frameHeight,int animationNumber, int numberOfFrames, long frameTime, boolean loop, int x, int y, long showDelay)
     {
         this.animImage = animImage;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
+        this.animationNumber = animationNumber;
         this.numberOfFrames = numberOfFrames;
         this.frameTime = frameTime;
         this.loop = loop;
@@ -152,6 +157,7 @@ public class Animation {
         
         // Checks if show delay is over.
         if(this.timeOfAnimationCration + this.showDelay <= System.currentTimeMillis())
-            g2d.drawImage(animImage, x, y, x + frameWidth, y + frameHeight, startingXOfFrameInImage, 0, endingXOfFrameInImage, frameHeight, null);
+            g2d.drawImage(animImage, x, y, x + frameWidth, y + frameHeight, startingXOfFrameInImage, 
+            		animationNumber * frameHeight, endingXOfFrameInImage, frameHeight * (animationNumber + 1), null);
     }
 }

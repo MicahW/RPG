@@ -73,7 +73,7 @@ public class Game {
      */
     public void UpdateGame(long gameTime, Point mousePosition)
     {
-        gameState.Update(1.0,1.0);
+        gameState.Update(2.0,0);
     }
     
     /**
