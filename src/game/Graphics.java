@@ -55,6 +55,8 @@ public class Graphics {
 		screen_width = width;
 		screen_height = height;
 		
+		scale = state.scale;
+		
 		drawGrid(g2d);
 		
 	}

@@ -31,7 +31,7 @@ public class Window extends JFrame{
             // Puts frame to center of the screen.
             this.setLocationRelativeTo(null);
             // So that frame cannot be resizable by the user.
-            this.setResizable(false);
+            //this.setResizable(false);
         }
         
         // Exit the application when user close frame.
