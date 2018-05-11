@@ -13,23 +13,49 @@ import gameframework.Animation;
 
 public class Graphics {
 	
-	Animation animation = null;
-	
 	int scale = 1;
 	
+	int camara_x;
+	int camara_y;
+	
+	int screen_width;
+	int screen_height;
+	
 	public Graphics() {
-		try {
-			BufferedImage img = ImageIO.read(new File("recourses/imgs/hero_spritesheet.png"));
-			animation = new Animation(img,80,100,1,6,120,true,25,25,0);
-		} catch (IOException e) {
-			assert(false);
+		
+	}
+	
+	
+	private void drawGrid(Graphics2D g2d) {
+		int block_size = Constants.BLOCK_SIZE * scale;
+		
+		int start_x = 0 - (camara_x % block_size) - block_size; 
+		int start_y = 0 - (camara_y % block_size) - block_size;
+		
+		int end_x = screen_width + block_size;
+		int end_y = screen_height + block_size;
+		
+		g2d.setColor(Color.GRAY);
+		
+		for(int i = start_x; i < end_x; i += block_size) {
+			g2d.drawLine(i, start_y,i,end_y );
+		}
+		
+		for(int i = start_y; i < end_y; i += block_size) {
+			g2d.drawLine(start_x,i,end_x,i );
 		}
 		
 		
 	}
 	
-	public void Render (PlayingState state, Graphics2D g2d) {
-		animation.changeCoordinates((int)(state.x), (int)(state.y));
-		animation.Draw(g2d);
+	public void renderEditor (EditorState state, Graphics2D g2d,int width, int height) {
+		camara_x = state.camara_x;
+		camara_y = state.camara_y;
+		
+		screen_width = width;
+		screen_height = height;
+		
+		drawGrid(g2d);
+		
 	}
 }

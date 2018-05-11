@@ -15,13 +15,15 @@ import java.awt.event.KeyEvent;
 public class Game {
 
 
-	PlayingState gameState;
+	MapState gameState;
 	Graphics graphics;
+	String type;
 	
 	
 	
-    public Game()
+    public Game(String type)
     {
+    	this.type = type;
         Framework.gameState = Framework.GameState.GAME_CONTENT_LOADING;
         
         Thread threadForInitGame = new Thread() {
@@ -44,7 +46,12 @@ public class Game {
      */
     private void Initialize()
     {
-    	gameState = new PlayingState();
+    	if(type == "game") {
+    		gameState = new PlayingState();
+    	} else if(type == "editor") {
+    		gameState = new EditorState();
+    	}
+    	
     	graphics = new Graphics();
     }
     
@@ -72,19 +79,8 @@ public class Game {
      * @param gameTime gameTime of the game.
      * @param mousePosition current mouse position.
      */
-    public void UpdateGame(long gameTime, Point mousePosition,boolean[] keyboardState)
-    {
-    	double x =0;
-    	
-    	if(keyboardState[KeyEvent.VK_LEFT]) {
-    		x = -.5;
-    	}
-    	
-    	if(keyboardState[KeyEvent.VK_RIGHT]) {
-    		x = .5;
-    	}
-    	
-        gameState.Update(x,0);
+    public void UpdateGame(long gameTime, Point mousePosition, boolean[] mouseState, boolean[] keyboardState) {
+    	gameState.Update(gameTime, mousePosition,mouseState, keyboardState);
     }
     
     /**
@@ -93,11 +89,11 @@ public class Game {
      * @param g2d Graphics2D
      * @param mousePosition current mouse position.
      */
-    public void Draw(Graphics2D g2d, Point mousePosition)
+    public void Draw(Graphics2D g2d, Point mousePosition, int width, int heigth)
     {
     	assert(gameState != null);
     	assert(graphics != null);
     	assert(g2d != null);
-        graphics.Render(gameState,g2d);
+        gameState.Draw(g2d,width,heigth);
     }
 }

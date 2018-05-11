@@ -71,8 +71,12 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
      * @return true if the key is down, false if the key is not down.
      */
     
-    public boolean[] keyBoardState() {
+    public boolean[] getKeyBoardState() {
     	return keyboardState;
+    }
+    
+    public boolean[] getMouseState() {
+    	return mouseState;
     }
     
     public static boolean keyboardKeyState(int key)
@@ -135,11 +139,13 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        mouseKeyStatus(e, false);
+        
     }
     
     @Override
-    public void mouseClicked(MouseEvent e) { }
+    public void mouseClicked(MouseEvent e) {
+    	mouseKeyStatus(e, true);
+    }
     
     @Override
     public void mouseEntered(MouseEvent e) { }

@@ -121,7 +121,7 @@ public class Framework extends Canvas {
                 case PLAYING:
                     gameTime += System.nanoTime() - lastTime;
                     
-                    game.UpdateGame(gameTime,null, keyBoardState());
+                    game.UpdateGame(gameTime,mousePosition(), getMouseState(), getKeyBoardState());
                     
                     lastTime = System.nanoTime();
                 break;
@@ -131,6 +131,7 @@ public class Framework extends Canvas {
                 case MAIN_MENU:
                     gameState = GameState.IDLE;
                     new MainMenu(this);
+
                 break;
                 case OPTIONS:
                     //...
@@ -199,7 +200,7 @@ public class Framework extends Canvas {
             case PLAYING:
             	assert(g2d != null);
             	assert(game != null);
-                game.Draw(g2d, null);
+                game.Draw(g2d, null, this.getWidth(), this.getHeight());
             break;
             case GAMEOVER:
                 //...
@@ -226,7 +227,16 @@ public class Framework extends Canvas {
         gameTime = 0;
         lastTime = System.nanoTime();
         
-        game = new Game();
+        game = new Game("game");
+    }
+    
+    void newEditor()
+    {
+        // We set gameTime to zero and lastTime to current time for later calculations.
+        gameTime = 0;
+        lastTime = System.nanoTime();
+        
+        game = new Game("editor");
     }
     
     /**
