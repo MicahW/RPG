@@ -3,6 +3,7 @@ import game.*;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 
 
 /**
@@ -71,9 +72,19 @@ public class Game {
      * @param gameTime gameTime of the game.
      * @param mousePosition current mouse position.
      */
-    public void UpdateGame(long gameTime, Point mousePosition)
+    public void UpdateGame(long gameTime, Point mousePosition,boolean[] keyboardState)
     {
-        gameState.Update(2.0,0);
+    	double x =0;
+    	
+    	if(keyboardState[KeyEvent.VK_LEFT]) {
+    		x = -.5;
+    	}
+    	
+    	if(keyboardState[KeyEvent.VK_RIGHT]) {
+    		x = .5;
+    	}
+    	
+        gameState.Update(x,0);
     }
     
     /**

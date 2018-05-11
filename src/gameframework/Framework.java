@@ -5,6 +5,8 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
+
 /**
  * Framework that controls the game (Game.java) that created it, update it and draw it on the screen.
  * 
@@ -47,7 +49,7 @@ public class Framework extends Canvas {
     /**
      * Possible states of the game
      */
-    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED}
+    public static enum GameState{STARTING, VISUALIZING, GAME_CONTENT_LOADING, MAIN_MENU, OPTIONS, PLAYING, GAMEOVER, DESTROYED,IDLE}
     /**
      * Current state of the game
      */
@@ -119,7 +121,7 @@ public class Framework extends Canvas {
                 case PLAYING:
                     gameTime += System.nanoTime() - lastTime;
                     
-                    game.UpdateGame(gameTime, mousePosition());
+                    game.UpdateGame(gameTime,null, keyBoardState());
                     
                     lastTime = System.nanoTime();
                 break;
@@ -127,8 +129,8 @@ public class Framework extends Canvas {
                     //...
                 break;
                 case MAIN_MENU:
-                    newGame();
-
+                    gameState = GameState.IDLE;
+                    new MainMenu(this);
                 break;
                 case OPTIONS:
                     //...
@@ -218,7 +220,7 @@ public class Framework extends Canvas {
     /**
      * Starts new game.
      */
-    private void newGame()
+    void newGame()
     {
         // We set gameTime to zero and lastTime to current time for later calculations.
         gameTime = 0;
