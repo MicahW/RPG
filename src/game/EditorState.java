@@ -4,6 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 public class EditorState extends MapState {
 	public int camara_x = 0;
 	public int camara_y = 0;
@@ -15,6 +18,15 @@ public class EditorState extends MapState {
 	//this is just a test array
 
 	private static int  CAMARA_SPEED = 5;
+	
+	public EditorState(JPanel panle) {
+		JButton editor = new JButton("test");
+		editor.setBounds(0,0,100,40);
+		editor.setFocusable(false);
+		//editor.addActionListener(this);
+		
+		panle.add(editor);
+	}
 	
 	private void getClickedBlock(Point mousePosition) {
 		int block_x = (mousePosition.x + camara_x) / (Constants.BLOCK_SIZE * scale);

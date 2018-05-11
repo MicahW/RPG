@@ -9,8 +9,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import gameframework.Animation;
-
 public class Graphics {
 	
 	int scale = 1;

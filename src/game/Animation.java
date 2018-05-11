@@ -1,4 +1,4 @@
-package gameframework;
+package game;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -9,16 +9,7 @@ import java.awt.image.BufferedImage;
  * @author www.gametutorial.net
  */
 
-public class Animation {
-
-    // Image of animation.
-    private BufferedImage animImage;
-
-    // Width of one frame in animated image.
-    private int frameWidth;
-
-    // Height of the frame(image).
-    private int frameHeight;
+public class Animation extends Image {
 
     // Number of frames in the animation image.
     private int numberOfFrames;
@@ -40,10 +31,6 @@ public class Animation {
 
     // Should animation repeat in loop?
     private boolean loop;
-
-    /** x and y coordinates. Where to draw the animation on the screen? */
-    public int x;
-    public int y;
 
     // Starting x coordinate of the current frame in the animation image.
     private int startingXOfFrameInImage;
@@ -75,7 +62,7 @@ public class Animation {
      * @param y y coordinate. Where to draw the animation on the screen?
      * @param showDelay In milliseconds. How long to wait before starting the animation and displaying it?
      */
-    public Animation(BufferedImage animImage, int frameWidth, int frameHeight,int animationNumber, int numberOfFrames, long frameTime, boolean loop, int x, int y, long showDelay)
+    public Animation(BufferedImage animImage, int frameWidth, int frameHeight,int animationNumber, int numberOfFrames, long frameTime, boolean loop, long showDelay)
     {
         this.animImage = animImage;
         this.frameWidth = frameWidth;
@@ -85,9 +72,6 @@ public class Animation {
         this.frameTime = frameTime;
         this.loop = loop;
 
-        this.x = x;
-        this.y = y;
-        
         this.showDelay = showDelay;
         
         timeOfAnimationCration = System.currentTimeMillis();
@@ -101,18 +85,6 @@ public class Animation {
         active = true;
     }
 
-
-    /**
-     * Changes the coordinates of the animation.
-     * 
-     * @param x x coordinate. Where to draw the animation on the screen?
-     * @param y y coordinate. Where to draw the animation on the screen?
-     */
-    public void changeCoordinates(int x, int y)
-    {
-        this.x = x;
-        this.y = y;
-    }
 
 
     /**
@@ -151,7 +123,7 @@ public class Animation {
      * 
      * @param g2d Graphics2D
      */
-    public void Draw(Graphics2D g2d)
+    public void Draw(Graphics2D g2d,int x, int y, int scale)
     {
         this.Update();
         

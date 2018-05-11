@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JButton;
+
 
 /**
  * Actual game.
@@ -19,11 +21,14 @@ public class Game {
 	Graphics graphics;
 	String type;
 	
+	Framework frame;
 	
 	
-    public Game(String type)
+	
+    public Game(String type, Framework frame)
     {
     	this.type = type;
+    	this.frame = frame;
         Framework.gameState = Framework.GameState.GAME_CONTENT_LOADING;
         
         Thread threadForInitGame = new Thread() {
@@ -49,7 +54,7 @@ public class Game {
     	if(type == "game") {
     		gameState = new PlayingState();
     	} else if(type == "editor") {
-    		gameState = new EditorState();
+    		gameState = new EditorState(frame);
     	}
     	
     	graphics = new Graphics();

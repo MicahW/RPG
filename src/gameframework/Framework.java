@@ -227,7 +227,7 @@ public class Framework extends Canvas {
         gameTime = 0;
         lastTime = System.nanoTime();
         
-        game = new Game("game");
+        game = new Game("game",this);
     }
     
     void newEditor()
@@ -236,7 +236,7 @@ public class Framework extends Canvas {
         gameTime = 0;
         lastTime = System.nanoTime();
         
-        game = new Game("editor");
+        game = new Game("editor",this);
     }
     
     /**
