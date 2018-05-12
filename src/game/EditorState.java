@@ -2,38 +2,79 @@ package game;
 
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-public class EditorState extends MapState {
+public class EditorState extends MapState implements ActionListener {
 	public int camara_x = 0;
 	public int camara_y = 0;
 	
-	public int scale = 3;
+	public int scale = 1;
 	
 	boolean draw_grid = true;
-
-	//this is just a test array
-
+	
 	private static int  CAMARA_SPEED = 5;
 	
-	public EditorState(JPanel panle) {
-		JButton editor = new JButton("test");
-		editor.setBounds(0,0,100,40);
-		editor.setFocusable(false);
-		//editor.addActionListener(this);
+	JPanel panle;
+	
+	ArrayList<JButton> buttons;
+
+	String selection;
+	
+	//starting block for the payer
+	int start_x,start_y;
+	boolean start_set = false;
+	
+	public EditorState(JPanel panle) {	
+		buttons = new ArrayList<JButton>();
+		this.panle = panle;
+		selection = "nothing";
 		
-		panle.add(editor);
+		addButton("Start Block",0,0,100,30);
 	}
 	
-	private void getClickedBlock(Point mousePosition) {
+	private JButton addButton(String name,int x,int y, int width, int height) {
+		JButton botton = new JButton(name);
+		botton.setBounds(x,y,width,height);
+		botton.setFocusable(false);
+		botton.addActionListener(this);
+		buttons.add(botton);
+		panle.add(botton);
+		return botton;
+	}
+	
+	private Point getClickedBlock(Point mousePosition) {
 		int block_x = (mousePosition.x + camara_x) / (Constants.BLOCK_SIZE * scale);
 		int block_y = (mousePosition.y + camara_y) / (Constants.BLOCK_SIZE * scale);
-		System.out.println("Clicked block (" + Integer.toString(block_x) + "," + Integer.toString(block_y) +")");
+		
+		if(mousePosition.x + camara_x < 0) {
+			block_x -= 1;
+		}
+		
+		if(mousePosition.y + camara_y < 0) {
+			block_y -= 1;
+		}
+		
+		return new Point(block_x,block_y);
 	}
 	
+	private void processClick(Point mousePosition) {
+		Point block = getClickedBlock(mousePosition);
+		
+		switch (selection) {
+		case "Start Block":
+			start_x = block.x;
+			start_y = block.y;
+			start_set = true;
+			System.out.println("got x:" + Integer.toString(start_x) + " y:" + Integer.toString(start_y));
+		}
+			
+	}
 	
 	@Override
 	public void Update(long gameTime, Point mousePosition, boolean[] mouseState, boolean[] keyboardState) {
@@ -54,7 +95,7 @@ public class EditorState extends MapState {
 		
 		if(mouseState[0]) {
 			mouseState[0] = false;
-			getClickedBlock(mousePosition);
+			processClick(mousePosition);
 		}
 		
 	}
@@ -63,5 +104,12 @@ public class EditorState extends MapState {
 	@Override
 	public void Draw(Graphics2D g2d, int width, int height) {
 		graphics.renderEditor(this, g2d, width, height);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+
+		selection = arg0.getActionCommand();
+		
 	}
 }

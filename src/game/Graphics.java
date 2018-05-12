@@ -23,6 +23,14 @@ public class Graphics {
 		
 	}
 	
+	private void drawBlock(Graphics2D g2d,int block_x, int block_y, Color color) {
+		int x_pos =  (block_x  * Constants.BLOCK_SIZE) - camara_x; 
+		int y_pos =  (block_y  * Constants.BLOCK_SIZE) - camara_y;
+		
+		g2d.setPaint(color);
+		g2d.fill(new Rectangle(x_pos,y_pos,Constants.BLOCK_SIZE, Constants.BLOCK_SIZE));
+	}
+		
 	
 	private void drawGrid(Graphics2D g2d) {
 		int block_size = Constants.BLOCK_SIZE * scale;
@@ -56,6 +64,12 @@ public class Graphics {
 		scale = state.scale;
 		
 		drawGrid(g2d);
+		g2d.setColor(Color.WHITE);
+		g2d.drawString(state.selection,width-80,10);
+		
+		if(state.start_set) {
+			drawBlock(g2d, state.start_x, state.start_y, Color.PINK);
+		}
 		
 	}
 }
