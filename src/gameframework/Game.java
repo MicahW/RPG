@@ -18,6 +18,7 @@ public class Game {
 
 
 	MapState gameState;
+	EntityLoader loader;
 	Graphics graphics;
 	String type;
 	
@@ -34,10 +35,12 @@ public class Game {
         Thread threadForInitGame = new Thread() {
             @Override
             public void run(){
+            	
+            	// Load game files (images, sounds, ...)
+                LoadContent();
                 // Sets variables and objects for the game.
                 Initialize();
-                // Load game files (images, sounds, ...)
-                LoadContent();
+                
                 
                 Framework.gameState = Framework.GameState.PLAYING;
             }
@@ -52,9 +55,9 @@ public class Game {
     private void Initialize()
     {
     	if(type == "game") {
-    		gameState = new PlayingState();
+    		gameState = new PlayingState(loader);
     	} else if(type == "editor") {
-    		gameState = new EditorState(frame);
+    		gameState = new EditorState(loader,frame);
     	}
     	
     	graphics = new Graphics();
@@ -65,7 +68,8 @@ public class Game {
      */
     private void LoadContent()
     {
-    	
+
+    	loader = new EntityLoader();
     }    
     
     

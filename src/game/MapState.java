@@ -10,12 +10,16 @@ public abstract class MapState {
 	
 	public Graphics graphics;
 	
+	public EntityLoader loader;
+	
+	public MapState(EntityLoader loader) {
+		this.loader = loader;
+		graphics = new Graphics();
+	}
+	
 	public abstract void Draw(Graphics2D g2d,int width, int height);
 	
 	public abstract void Update(long gameTime, Point mousePosition,boolean[] mouseState,boolean[] keyboardState);
 	
-	public MapState() {
-		graphics = new Graphics();
-	}
 }
 

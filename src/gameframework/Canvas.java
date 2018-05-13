@@ -34,6 +34,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
         this.setDoubleBuffered(true);
         this.setFocusable(true);
         this.setBackground(Color.black);
+        this.setLayout(null);
         
         // If you will draw your own mouse cursor or if you just want that mouse cursor disapear, 
         // insert "true" into if condition and mouse cursor will be removed.

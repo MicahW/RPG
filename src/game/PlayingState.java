@@ -10,7 +10,8 @@ public class PlayingState extends MapState {
 	double x;
 	double y;
 	
-	public PlayingState() {
+	public PlayingState(EntityLoader loader) {
+		super(loader);
 		x = 0;
 		y = 0;
 	}

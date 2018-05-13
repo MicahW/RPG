@@ -175,7 +175,7 @@ public class Framework extends Canvas {
             // Here we calculate the time that defines for how long we should put threat to sleep to meet the GAME_FPS.
             timeTaken = System.nanoTime() - beginTime;
             
-            assert((timeTaken < GAME_UPDATE_PERIOD));
+            //assert((timeTaken < GAME_UPDATE_PERIOD));
             
             	
             timeLeft = (GAME_UPDATE_PERIOD - timeTaken) / milisecInNanosec; // In milliseconds

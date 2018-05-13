@@ -13,6 +13,12 @@ public class Image {
     // Height of the frame(image).
     protected int frameHeight;
     
+    public Image(BufferedImage img) {
+    	animImage = img;
+    	frameWidth = img.getWidth();
+    	frameHeight = img.getHeight();
+    }
+    
     public void Draw(Graphics2D g2d,int x, int y, int scale)   {
     	g2d.drawImage(animImage, x, y, x + frameWidth, y + frameHeight, 0, 
             		frameHeight, 0 , frameHeight, null);

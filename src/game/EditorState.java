@@ -6,15 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 public class EditorState extends MapState implements ActionListener {
 	public int camara_x = 0;
 	public int camara_y = 0;
 	
-	public int scale = 1;
+	public int scale = 2;
 	
 	boolean draw_grid = true;
 	
@@ -30,12 +34,31 @@ public class EditorState extends MapState implements ActionListener {
 	int start_x,start_y;
 	boolean start_set = false;
 	
-	public EditorState(JPanel panle) {	
+	public EditorState(EntityLoader loader,JPanel panle) {	
+		super(loader);
 		buttons = new ArrayList<JButton>();
 		this.panle = panle;
 		selection = "nothing";
 		
 		addButton("Start Block",0,0,100,30);
+		addButton("Place Block",0,30,100,30);
+		
+		String[] list = loader.getSolidsArray();
+		JList<String> blockList = new JList<String>(list);
+		blockList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		blockList.setLayoutOrientation(JList.VERTICAL);
+		blockList.setVisibleRowCount(-1);
+		blockList.setBounds(0,90,150,400);
+		JScrollPane blockScroller = new JScrollPane(blockList);
+		blockScroller.setBounds(0,90,150,400);
+		blockScroller.setFocusable(false);
+		blockList.setFocusable(false);
+		panle.add(blockList);
+		panle.add(blockScroller);
+		
+		
+		
+		
 	}
 	
 	private JButton addButton(String name,int x,int y, int width, int height) {
@@ -71,7 +94,7 @@ public class EditorState extends MapState implements ActionListener {
 			start_x = block.x;
 			start_y = block.y;
 			start_set = true;
-			System.out.println("got x:" + Integer.toString(start_x) + " y:" + Integer.toString(start_y));
+			//System.out.println("got x:" + Integer.toString(start_x) + " y:" + Integer.toString(start_y));
 		}
 			
 	}

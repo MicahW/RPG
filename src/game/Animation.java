@@ -62,8 +62,11 @@ public class Animation extends Image {
      * @param y y coordinate. Where to draw the animation on the screen?
      * @param showDelay In milliseconds. How long to wait before starting the animation and displaying it?
      */
+    
     public Animation(BufferedImage animImage, int frameWidth, int frameHeight,int animationNumber, int numberOfFrames, long frameTime, boolean loop, long showDelay)
     {
+    	super(animImage);
+    	
         this.animImage = animImage;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;

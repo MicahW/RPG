@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 public class Graphics {
 	
-	int scale = 1;
+	int scale;
 	
 	int camara_x;
 	int camara_y;
@@ -24,11 +24,11 @@ public class Graphics {
 	}
 	
 	private void drawBlock(Graphics2D g2d,int block_x, int block_y, Color color) {
-		int x_pos =  (block_x  * Constants.BLOCK_SIZE) - camara_x; 
-		int y_pos =  (block_y  * Constants.BLOCK_SIZE) - camara_y;
+		int x_pos =  (block_x  * Constants.BLOCK_SIZE * scale) - camara_x; 
+		int y_pos =  (block_y  * Constants.BLOCK_SIZE * scale) - camara_y;
 		
 		g2d.setPaint(color);
-		g2d.fill(new Rectangle(x_pos,y_pos,Constants.BLOCK_SIZE, Constants.BLOCK_SIZE));
+		g2d.fill(new Rectangle(x_pos,y_pos,Constants.BLOCK_SIZE*scale, Constants.BLOCK_SIZE*scale));
 	}
 		
 	
