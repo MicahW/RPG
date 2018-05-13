@@ -99,9 +99,7 @@ public class EditorState extends MapState implements ActionListener {
 			
 	}
 	
-	@Override
-	public void Update(long gameTime, Point mousePosition, boolean[] mouseState, boolean[] keyboardState) {
-		
+	private void processKeys(boolean[] keyboardState) {
 		int speed = CAMARA_SPEED;
 		
 		if(keyboardState[KeyEvent.VK_LEFT]) {
@@ -114,7 +112,24 @@ public class EditorState extends MapState implements ActionListener {
     		camara_y += -1*speed;
     	} else if (keyboardState[KeyEvent.VK_DOWN]) {
     		camara_y += speed;
-    	}		
+    	}
+		
+		if(keyboardState[KeyEvent.VK_MINUS] && scale != 1) {
+			scale--;
+			camara_x = ((camara_x + panle.getWidth())/ (2*Constants.BLOCK_SIZE)) * scale - (panle.getWidth() / 2);
+			camara_y = ((camara_y + panle.getHeight())/ (2*Constants.BLOCK_SIZE)) * scale - (panle.getHeight() / 2);
+
+		} else if(keyboardState[KeyEvent.VK_EQUALS]) {
+			scale++;
+			camara_x = ((camara_x + panle.getWidth())/ (2*Constants.BLOCK_SIZE)) * scale - (panle.getWidth() / 2);
+			camara_y = ((camara_y + panle.getHeight())/ (2*Constants.BLOCK_SIZE)) * scale - (panle.getHeight() / 2);
+		}
+	}
+	
+	@Override
+	public void Update(long gameTime, Point mousePosition, boolean[] mouseState, boolean[] keyboardState) {
+		
+		processKeys(keyboardState);		
 		
 		if(mouseState[0]) {
 			mouseState[0] = false;

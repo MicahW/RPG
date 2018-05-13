@@ -37,8 +37,9 @@ public class EntityLoader {
 	    		try {
 					BufferedImage img = ImageIO.read(file);
 					Image image = new Image(img);
-					solids.add(file.getName());
-					primaryMap.put(file.getName(),image);
+					String str = file.getName().replaceAll(".png", "");
+					solids.add(str);
+					primaryMap.put(str,image);
 				} catch (IOException e) {
 					System.out.println("Failed to load image");
 				}

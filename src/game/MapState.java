@@ -12,6 +12,8 @@ public abstract class MapState {
 	
 	public EntityLoader loader;
 	
+	//variables used to store map
+	
 	public MapState(EntityLoader loader) {
 		this.loader = loader;
 		graphics = new Graphics();
