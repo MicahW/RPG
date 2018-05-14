@@ -43,15 +43,16 @@ public class EditorState extends MapState implements ActionListener {
 		
 		addButton("Start Block",0,0,100,30);
 		addButton("Place Block",0,30,100,30);
+		addButton("Remove Block",0,60,100,30);
 		
 		String[] list = loader.getSolidsArray();
 		blockList = new JList<String>(list);
 		blockList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		blockList.setLayoutOrientation(JList.VERTICAL);
 		blockList.setVisibleRowCount(-1);
-		blockList.setBounds(0,90,150,400);
+		blockList.setBounds(0,180,150,400);
 		JScrollPane blockScroller = new JScrollPane(blockList);
-		blockScroller.setBounds(0,90,150,400);
+		blockScroller.setBounds(0,180,150,400);
 		blockScroller.setFocusable(false);
 		blockList.setFocusable(false);
 		panle.add(blockList);
@@ -106,7 +107,9 @@ public class EditorState extends MapState implements ActionListener {
 				addBlock(id,null,block);
 			}
 			break;
-			
+		
+		case "Remove Block":
+			removeBlock(block);
 			
 		}
 			
@@ -145,7 +148,7 @@ public class EditorState extends MapState implements ActionListener {
 		processKeys(keyboardState);		
 		
 		if(mouseState[0]) {
-			mouseState[0] = false;
+			//mouseState[0] = false;
 			processClick(mousePosition);
 		}
 		

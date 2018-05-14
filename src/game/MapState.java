@@ -27,6 +27,10 @@ public abstract class MapState {
 	public abstract void Update(long gameTime, Point mousePosition,boolean[] mouseState,boolean[] keyboardState);
 	
 	
+	protected void removeBlock(Point point) {
+		levelMap.put(point, null);
+	}
+	
 	//add a block to the levelMap, or if one avalible then change it
 	protected void addBlock(String solid, String tile , Point point) {
 		Block block = levelMap.get(point);

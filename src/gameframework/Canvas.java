@@ -140,7 +140,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
     @Override
     public void mouseReleased(MouseEvent e)
     {
-        
+    	 mouseKeyStatus(e, false);
     }
     
     @Override
