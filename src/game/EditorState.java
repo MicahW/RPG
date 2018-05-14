@@ -25,6 +25,7 @@ public class EditorState extends MapState implements ActionListener {
 	private static int  CAMARA_SPEED = 5;
 	
 	JPanel panle;
+	JList blockList;
 	
 	ArrayList<JButton> buttons;
 
@@ -44,7 +45,7 @@ public class EditorState extends MapState implements ActionListener {
 		addButton("Place Block",0,30,100,30);
 		
 		String[] list = loader.getSolidsArray();
-		JList<String> blockList = new JList<String>(list);
+		blockList = new JList<String>(list);
 		blockList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		blockList.setLayoutOrientation(JList.VERTICAL);
 		blockList.setVisibleRowCount(-1);
@@ -90,11 +91,23 @@ public class EditorState extends MapState implements ActionListener {
 		Point block = getClickedBlock(mousePosition);
 		
 		switch (selection) {
+		
 		case "Start Block":
 			start_x = block.x;
 			start_y = block.y;
 			start_set = true;
-			//System.out.println("got x:" + Integer.toString(start_x) + " y:" + Integer.toString(start_y));
+			break;
+			
+		case "Place Block":
+			String id = (String)blockList.getSelectedValue();
+			if(id == null) {
+				System.out.println("no selected value");
+			} else {
+				addBlock(id,null,block);
+			}
+			break;
+			
+			
 		}
 			
 	}

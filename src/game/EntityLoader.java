@@ -26,6 +26,12 @@ public class EntityLoader {
 		return solids.toArray(new String[solids.size()]);
 	}
 	
+	public Image getImage(String id) {
+		Image img = (Image)primaryMap.get(id);
+		assert(img != null);
+		return img;
+	}
+	
 	private void loadImages(String path, ArrayList<String> images) {
 		File[] files = new File("recourses/imgs/" + path).listFiles();
 		if(files == null) {

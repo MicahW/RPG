@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -19,7 +20,40 @@ public class Graphics {
 	int screen_width;
 	int screen_height;
 	
+	MapState mapState;
+	
 	public Graphics() {
+		
+	}
+	
+	private void drawSolid(Graphics2D g2d,int block_x,int block_y) {
+		int x_pos =  (block_x  * Constants.BLOCK_SIZE * scale) - camara_x; 
+		int y_pos =  (block_y  * Constants.BLOCK_SIZE * scale) - camara_y;
+		
+		Point point = new Point(block_x,block_y);
+		Block block = mapState.levelMap.get(point);
+		
+		if(block != null) {
+			block.solid.Draw(g2d, x_pos, y_pos, scale);		
+		}
+	}
+	
+	private void drawSolids(Graphics2D g2d) {
+
+		
+		int start_x = ((camara_x) / (Constants.BLOCK_SIZE * scale))-1;
+		int start_y = ((camara_y) / (Constants.BLOCK_SIZE * scale))-1;
+		int end_x = ((camara_x+screen_width) / (Constants.BLOCK_SIZE * scale))+1;
+		int end_y = ((camara_y+screen_height) / (Constants.BLOCK_SIZE * scale))+1;
+		
+		int x,y;
+		
+		for(x = start_x; x < end_x; x++) {
+			for(y = start_y; y < end_y; y++) {
+				drawSolid(g2d,x,y);
+			}
+		}
+		
 		
 	}
 	
@@ -63,6 +97,8 @@ public class Graphics {
 		
 		scale = state.scale;
 		
+		mapState = state;
+		
 		drawGrid(g2d);
 		g2d.setColor(Color.WHITE);
 		g2d.drawString(state.selection,width-80,10);
@@ -70,6 +106,8 @@ public class Graphics {
 		if(state.start_set) {
 			drawBlock(g2d, state.start_x, state.start_y, Color.PINK);
 		}
+		
+		drawSolids(g2d);
 		
 	}
 }

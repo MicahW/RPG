@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 
 public class Image {
@@ -19,8 +20,13 @@ public class Image {
     	frameHeight = img.getHeight();
     }
     
+    public Point getDimentions() {
+    	return new Point(frameWidth / Constants.BLOCK_SIZE, frameHeight / Constants.BLOCK_SIZE);
+    }
+    
     public void Draw(Graphics2D g2d,int x, int y, int scale)   {
-    	g2d.drawImage(animImage, x, y, x + frameWidth, y + frameHeight, 0, 
-            		frameHeight, 0 , frameHeight, null);
+    	g2d.drawImage(animImage, 
+    			x, y, x + (scale *frameWidth), y + (scale * frameHeight), 
+    			0,0, frameHeight , frameHeight, null);
     }
 }
