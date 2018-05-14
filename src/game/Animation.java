@@ -90,6 +90,10 @@ public class Animation extends Image {
         active = true;
     }
     
+    public Image Copy() {
+    	return new Animation(this.animImage,this.frameWidth,this.frameHeight,this.animationNumber,this.numberOfFrames,this.frameTime,this.loop, 0);
+    }
+    
     
     public void setAnimation(int animationNumber, boolean loop, long showDelay) {
     	this.animationNumber = animationNumber;
@@ -136,6 +140,8 @@ public class Animation extends Image {
             timeForNextFrame = startingFrameTime + frameTime[animationNumber];
         }
     }
+    
+    
 
     /**
      * Draws current frame of the animation.

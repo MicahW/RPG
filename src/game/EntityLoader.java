@@ -36,8 +36,16 @@ public class EntityLoader {
 		return solids.toArray(new String[solids.size()]);
 	}
 	
+	
 	public Image getImage(String id) {
-		Image img = (Image)primaryMap.get(id);
+		Image img = ((Image) (primaryMap.get(id)));
+		//assert(img != null);
+		return img;
+	}
+	
+	//used for entities with their won animations
+	public Image getImageCopy(String id) {
+		Image img = ((Image) (primaryMap.get(id))).Copy();
 		//assert(img != null);
 		return img;
 	}

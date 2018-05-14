@@ -24,6 +24,11 @@ public class Image {
     	return new Point(frameWidth / Constants.BLOCK_SIZE, frameHeight / Constants.BLOCK_SIZE);
     }
     
+    //images can just pass pointers to the one image, this will be used for animations
+    public Image Copy() {
+    	return this;
+    }
+    
     public void Draw(Graphics2D g2d,int x, int y, int scale)   {
     	g2d.drawImage(animImage, 
     			x, y, x + (scale *frameWidth), y + (scale * frameHeight), 
