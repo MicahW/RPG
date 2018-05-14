@@ -12,13 +12,13 @@ import java.awt.image.BufferedImage;
 public class Animation extends Image {
 
     // Number of frames in the animation image.
-    private int numberOfFrames;
+    private int[] numberOfFrames;
     
     //row to look at
     private int animationNumber;
 
     // Amount of time between frames in milliseconds. (How many time in milliseconds will be one frame shown before showing next frame?)
-    private long frameTime;
+    private long[] frameTime;
 
     // Time when the frame started showing. (We use this to calculate the time for the next frame.)
     private long startingFrameTime;
@@ -63,7 +63,9 @@ public class Animation extends Image {
      * @param showDelay In milliseconds. How long to wait before starting the animation and displaying it?
      */
     
-    public Animation(BufferedImage animImage, int frameWidth, int frameHeight,int animationNumber, int numberOfFrames, long frameTime, boolean loop, long showDelay)
+    
+    
+    public Animation(BufferedImage animImage, int frameWidth, int frameHeight,int animationNumber, int[] numberOfFrames, long[] frameTime, boolean loop, long showDelay)
     {
     	super(animImage);
     	
@@ -83,7 +85,21 @@ public class Animation extends Image {
         endingXOfFrameInImage = frameWidth;
 
         startingFrameTime = System.currentTimeMillis() + showDelay;
-        timeForNextFrame = startingFrameTime + this.frameTime;
+        timeForNextFrame = startingFrameTime + this.frameTime[animationNumber];
+        currentFrameNumber = 0;
+        active = true;
+    }
+    
+    
+    public void setAnimation(int animationNumber, boolean loop, long showDelay) {
+    	this.animationNumber = animationNumber;
+    	this.loop = loop;
+    	
+    	
+    	timeOfAnimationCration = System.currentTimeMillis();
+
+        startingFrameTime = System.currentTimeMillis() + showDelay;
+        timeForNextFrame = startingFrameTime + this.frameTime[animationNumber];
         currentFrameNumber = 0;
         active = true;
     }
@@ -102,7 +118,7 @@ public class Animation extends Image {
             currentFrameNumber++;
 
             // If the animation is reached the end, we restart it by seting current frame to zero. If the animation isn't loop then we set that animation isn't active.
-            if(currentFrameNumber >= numberOfFrames)
+            if(currentFrameNumber >= numberOfFrames[animationNumber])
             {
                 currentFrameNumber = 0;
 
@@ -117,7 +133,7 @@ public class Animation extends Image {
 
             // Set time for the next frame.
             startingFrameTime = System.currentTimeMillis();
-            timeForNextFrame = startingFrameTime + frameTime;
+            timeForNextFrame = startingFrameTime + frameTime[animationNumber];
         }
     }
 
@@ -132,7 +148,7 @@ public class Animation extends Image {
         
         // Checks if show delay is over.
         if(this.timeOfAnimationCration + this.showDelay <= System.currentTimeMillis())
-            g2d.drawImage(animImage, x, y, x + frameWidth, y + frameHeight, startingXOfFrameInImage, 
-            		animationNumber * frameHeight, endingXOfFrameInImage, frameHeight * (animationNumber + 1), null);
+            g2d.drawImage(animImage, x, y, x + (scale * frameWidth), y + (scale *frameHeight), startingXOfFrameInImage, 
+            		animationNumber * frameWidth, endingXOfFrameInImage, frameHeight * (animationNumber + 1), null);
     }
 }

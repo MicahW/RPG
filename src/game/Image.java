@@ -27,6 +27,6 @@ public class Image {
     public void Draw(Graphics2D g2d,int x, int y, int scale)   {
     	g2d.drawImage(animImage, 
     			x, y, x + (scale *frameWidth), y + (scale * frameHeight), 
-    			0,0, frameHeight , frameHeight, null);
+    			0,0, frameWidth , frameHeight, null);
     }
 }
