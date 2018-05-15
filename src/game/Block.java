@@ -5,6 +5,9 @@ import java.awt.Point;
 
 
 public class Block implements java.io.Serializable{
+	private static final long serialVersionUID = 24L;
+	
+	
 	transient Image img;
 	String src;
 	//solid width and height, others to not matter
@@ -46,6 +49,15 @@ public class Block implements java.io.Serializable{
 		Point dims = img.getDimentions();
 		width = dims.x;
 		height = dims.y;
+	}
+	
+	//used opun deserilzing a level
+	public void loadImage(EntityLoader loader) {
+		if(used == true) {
+			return;
+		}
+		assert(src != null);
+		img = loader.getImage(src);
 	}
 	
 	

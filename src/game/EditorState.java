@@ -186,7 +186,24 @@ public class EditorState extends MapState implements ActionListener {
 		
 		switch(command) {
 		case "Save":
-			System.out.println(fileName.getText());
+			//System.out.println("Saving");
+			boolean saved = level.saveLevel(fileName.getText());
+			if(saved) {
+				selection = "Saved: " + fileName.getText();
+			} else {
+				selection = "Failed to Save: " + fileName.getText() + "!!!";
+			}
+		break;
+		
+		case "Load":
+			//System.out.println("Loading");
+			Level newLevel = level.loadLevel(fileName.getText(),loader);
+			if(newLevel != null) {
+				selection = "Loaded: " + fileName.getText();
+				level = newLevel;
+			} else {
+				selection = "Failed to Load: " + fileName.getText() + "!!!";
+			}
 			break;
 			
 		default:

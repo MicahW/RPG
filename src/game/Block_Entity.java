@@ -3,7 +3,7 @@ package game;
 import java.awt.Point;
 import java.util.HashMap;
 
-class Block_Entity {
+public class Block_Entity {
 	//
 	public final static Block_Entity USED = new Block_Entity();
 	

@@ -112,7 +112,7 @@ public class Graphics {
 		
 		drawGrid(g2d);
 		g2d.setColor(Color.WHITE);
-		g2d.drawString(state.selection,width-80,10);
+		g2d.drawString(state.selection,width-120,10);
 		drawSolids(g2d);
 		
 		if(state.start_set) {
