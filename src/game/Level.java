@@ -8,18 +8,18 @@ public class Level {
 	int start_y;
 	
 	//variables used to store map
-	HashMap<Point,Block> levelMap;
+	HashMap<Point,Block> solidsMap;
 	
 	public Level() {
-		levelMap = new HashMap<Point,Block>();
+		solidsMap = new HashMap<Point,Block>();
 	}
 	
-	public void putBlock(Point p, Block b) {
-		levelMap.put(p, b);
+	public void putSolid(Point p, Block b) {
+		solidsMap.put(p, b);
 	}
 	
-	public Block getBlock(Point p) {
-		return levelMap.get(p);
+	public Block getSolid(Point p) {
+		return solidsMap.get(p);
 	}
 	
 	

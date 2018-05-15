@@ -5,15 +5,13 @@ import java.awt.Point;
 
 
 public class Block implements java.io.Serializable{
-	transient Image tile;
-	transient Image solid;
-	String tileSrc;
-	String solidSrc;
+	transient Image img;
+	String src;
 	//solid width and height, others to not matter
 	int width;
 	int height;
 	
-	public static Block usedBlock = new Block();
+	public static final Block USED = new Block();
 	
 	public Block() {
 	}
@@ -21,19 +19,12 @@ public class Block implements java.io.Serializable{
 	
 	
 	//set the source and load the image as necisary
-	public void setSrc(String solidSrc, String tileSrc,EntityLoader loader) {
-		if(tileSrc != null) {
-			this.tileSrc = tileSrc;
-			tile = loader.getImage(tileSrc);
-		} 
-		
-		if(solidSrc != null) {
-			this.solidSrc = solidSrc;
-			solid = loader.getImage(solidSrc);
-			Point dims = solid.getDimentions();
-			width = dims.x;
-			height = dims.y;
-		}
+	public void setSrc(String src, EntityLoader loader) {
+		this.src = src;
+		img = loader.getImage(src);
+		Point dims = img.getDimentions();
+		width = dims.x;
+		height = dims.y;
 	}
 	
 	

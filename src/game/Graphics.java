@@ -31,10 +31,10 @@ public class Graphics {
 		int y_pos =  (block_y  * Constants.BLOCK_SIZE * scale) - camara_y;
 		
 		Point point = new Point(block_x,block_y);
-		Block block = mapState.level.getBlock(point);
+		Block block = mapState.level.getSolid(point);
 		
-		if(block != null) {
-			block.solid.Draw(g2d, x_pos, y_pos, scale);		
+		if(block != null && block != Block.USED) {
+			block.img.Draw(g2d, x_pos, y_pos, scale);		
 		}
 	}
 	

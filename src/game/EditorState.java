@@ -23,7 +23,7 @@ public class EditorState extends MapState implements ActionListener {
 	
 	boolean draw_grid = true;
 	
-	private static int  CAMARA_SPEED = 5;
+	private static int  CAMARA_SPEED = 15;
 	
 	JPanel panle;
 	JList blockList;
@@ -113,12 +113,12 @@ public class EditorState extends MapState implements ActionListener {
 			if(id == null) {
 				System.out.println("no selected value");
 			} else {
-				addBlock(id,null,block);
+				addSolid(id,block);
 			}
 			break;
 		
 		case "Remove Block":
-			removeBlock(block);
+			removeSolid(block);
 			
 		}
 			
@@ -151,6 +151,14 @@ public class EditorState extends MapState implements ActionListener {
 			scale++;
 			camara_x = ((scale * (camara_x + (panle.getWidth()/2))) / old_scale) - (panle.getWidth()/2);
 			camara_y = ((scale * (camara_y + (panle.getHeight()/2))) / old_scale) - (panle.getHeight()/2);
+		}
+		
+		if(keyboardState[KeyEvent.VK_F]) {
+			selection = "Place Block";
+		}
+		
+		if(keyboardState[KeyEvent.VK_D]) {
+			selection = "Remove Block";
 		}
 	}
 	
