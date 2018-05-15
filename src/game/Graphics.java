@@ -31,7 +31,7 @@ public class Graphics {
 		int y_pos =  (block_y  * Constants.BLOCK_SIZE * scale) - camara_y;
 		
 		Point point = new Point(block_x,block_y);
-		Block block = mapState.levelMap.get(point);
+		Block block = mapState.level.getBlock(point);
 		
 		if(block != null) {
 			block.solid.Draw(g2d, x_pos, y_pos, scale);		
@@ -102,12 +102,13 @@ public class Graphics {
 		drawGrid(g2d);
 		g2d.setColor(Color.WHITE);
 		g2d.drawString(state.selection,width-80,10);
+		drawSolids(g2d);
 		
 		if(state.start_set) {
-			drawBlock(g2d, state.start_x, state.start_y, Color.PINK);
+			drawBlock(g2d, state.level.start_x, state.level.start_y, Color.PINK);
 		}
 		
-		drawSolids(g2d);
+		
 		
 	}
 }

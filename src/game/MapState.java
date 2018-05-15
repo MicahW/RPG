@@ -9,16 +9,15 @@ import java.util.HashMap;
 //game playing or interaction
 public abstract class MapState {
 	
-	public transient Graphics graphics;
+	public Graphics graphics;
 	
-	public transient EntityLoader loader;
+	public EntityLoader loader;
 	
-	//variables used to store map
-	HashMap<Point,Block> levelMap;
+	public Level level;
 	
 	public MapState(EntityLoader loader) {
 		this.loader = loader;
-		levelMap = new HashMap<Point,Block>();
+		level = new Level();
 		graphics = new Graphics();
 	}
 	
@@ -28,15 +27,15 @@ public abstract class MapState {
 	
 	
 	protected void removeBlock(Point point) {
-		levelMap.put(point, null);
+		level.putBlock(point, null);
 	}
 	
 	//add a block to the levelMap, or if one avalible then change it
 	protected void addBlock(String solid, String tile , Point point) {
-		Block block = levelMap.get(point);
+		Block block = level.getBlock(point);
 		if(block == null) {
 			block = new Block();
-			levelMap.put(point,block);
+			level.putBlock(point,block);
 		}
 		block.setSrc(solid, tile, loader);
 	}

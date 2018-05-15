@@ -31,8 +31,6 @@ public class EditorState extends MapState implements ActionListener {
 
 	String selection;
 	
-	//starting block for the payer
-	int start_x,start_y;
 	boolean start_set = false;
 	
 	public EditorState(EntityLoader loader,JPanel panle) {	
@@ -94,8 +92,8 @@ public class EditorState extends MapState implements ActionListener {
 		switch (selection) {
 		
 		case "Start Block":
-			start_x = block.x;
-			start_y = block.y;
+			level.start_x = block.x;
+			level.start_y = block.y;
 			start_set = true;
 			break;
 			
@@ -131,14 +129,17 @@ public class EditorState extends MapState implements ActionListener {
     	}
 		
 		if(keyboardState[KeyEvent.VK_MINUS] && scale != 1) {
+			int old_scale = scale;
 			scale--;
-			camara_x = ((camara_x + panle.getWidth())/ (2*Constants.BLOCK_SIZE)) * scale - (panle.getWidth() / 2);
-			camara_y = ((camara_y + panle.getHeight())/ (2*Constants.BLOCK_SIZE)) * scale - (panle.getHeight() / 2);
+			
+			camara_x = ((scale * (camara_x + (panle.getWidth()/2))) / old_scale) - (panle.getWidth()/2);
+			camara_y = ((scale * (camara_y + (panle.getHeight()/2))) / old_scale) - (panle.getHeight()/2);
 
 		} else if(keyboardState[KeyEvent.VK_EQUALS]) {
+			int old_scale = scale;
 			scale++;
-			camara_x = ((camara_x + panle.getWidth())/ (2*Constants.BLOCK_SIZE)) * scale - (panle.getWidth() / 2);
-			camara_y = ((camara_y + panle.getHeight())/ (2*Constants.BLOCK_SIZE)) * scale - (panle.getHeight() / 2);
+			camara_x = ((scale * (camara_x + (panle.getWidth()/2))) / old_scale) - (panle.getWidth()/2);
+			camara_y = ((scale * (camara_y + (panle.getHeight()/2))) / old_scale) - (panle.getHeight()/2);
 		}
 	}
 	
