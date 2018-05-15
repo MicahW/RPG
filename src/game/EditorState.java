@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 public class EditorState extends MapState implements ActionListener {
@@ -26,6 +27,7 @@ public class EditorState extends MapState implements ActionListener {
 	
 	JPanel panle;
 	JList blockList;
+	JTextField fileName;
 	
 	ArrayList<JButton> buttons;
 
@@ -39,9 +41,18 @@ public class EditorState extends MapState implements ActionListener {
 		this.panle = panle;
 		selection = "nothing";
 		
-		addButton("Start Block",0,0,100,30);
-		addButton("Place Block",0,30,100,30);
-		addButton("Remove Block",0,60,100,30);
+		int button_size = 140;
+		
+		addButton("Start Block",0,0,button_size,30);
+		addButton("Place Block",0,30,button_size,30);
+		addButton("Remove Block",0,60,button_size,30);
+		addButton("Save",0,90,button_size/2,30);
+		addButton("Load",button_size/2,90,button_size/2,30);
+		
+		fileName = new JTextField();
+		fileName.setBounds(0,120,button_size,20);
+		panle.add(fileName);
+		
 		
 		String[] list = loader.getSolidsArray();
 		blockList = new JList<String>(list);
@@ -51,7 +62,7 @@ public class EditorState extends MapState implements ActionListener {
 		blockList.setBounds(0,180,150,400);
 		JScrollPane blockScroller = new JScrollPane(blockList);
 		blockScroller.setBounds(0,180,150,400);
-		blockScroller.setFocusable(false);
+		//blockScroller.setFocusable(false);
 		blockList.setFocusable(false);
 		panle.add(blockList);
 		panle.add(blockScroller);
@@ -163,8 +174,16 @@ public class EditorState extends MapState implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-
-		selection = arg0.getActionCommand();
+		String command = arg0.getActionCommand();
 		
+		switch(command) {
+		case "Save":
+			System.out.println(fileName.getText());
+			break;
+			
+		default:
+			selection = command;
+		}
+				
 	}
 }

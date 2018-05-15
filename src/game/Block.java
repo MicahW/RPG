@@ -2,6 +2,8 @@ package game;
 
 import java.awt.Point;
 
+
+
 public class Block implements java.io.Serializable{
 	transient Image tile;
 	transient Image solid;
@@ -11,8 +13,12 @@ public class Block implements java.io.Serializable{
 	int width;
 	int height;
 	
+	public static Block usedBlock = new Block();
+	
 	public Block() {
 	}
+	
+	
 	
 	//set the source and load the image as necisary
 	public void setSrc(String solidSrc, String tileSrc,EntityLoader loader) {

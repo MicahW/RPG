@@ -38,6 +38,13 @@ public abstract class MapState {
 			level.putBlock(point,block);
 		}
 		block.setSrc(solid, tile, loader);
+		/*
+		for(int x = 1; x < block.width; x++) {
+			for(int y = 1; y < block.height; y++) {
+				level.putBlock(new Point(x,y), Block.usedBlock);
+			}
+		}
+		*/
 	}
 	
 }

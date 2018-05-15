@@ -134,6 +134,7 @@ public abstract class Canvas extends JPanel implements KeyListener, MouseListene
     @Override
     public void mousePressed(MouseEvent e)
     {
+    	this.requestFocus();
         mouseKeyStatus(e, true);
     }
     
