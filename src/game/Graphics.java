@@ -33,8 +33,19 @@ public class Graphics {
 		Point point = new Point(block_x,block_y);
 		Block block = mapState.level.getSolid(point);
 		
-		if(block != null && block != Block.USED) {
-			block.img.Draw(g2d, x_pos, y_pos, scale);		
+		if(block != null) {
+			if(block.used == false) {
+				block.img.Draw(g2d, x_pos, y_pos, scale);
+			} else {
+				Point ownerPoint = block.getOwnerPoint();
+				Block owner = mapState.level.getSolid(ownerPoint);
+				
+				int owner_x_pos =  (ownerPoint.x  * Constants.BLOCK_SIZE * scale) - camara_x; 
+				int ownder_y_pos =  (ownerPoint.y  * Constants.BLOCK_SIZE * scale) - camara_y;
+				
+				
+				owner.img.Draw(g2d, owner_x_pos, ownder_y_pos, scale);
+			}
 		}
 	}
 	

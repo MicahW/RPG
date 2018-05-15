@@ -23,7 +23,7 @@ public class EditorState extends MapState implements ActionListener {
 	
 	boolean draw_grid = true;
 	
-	private static int  CAMARA_SPEED = 15;
+	private static int  CAMARA_SPEED = 10;
 	
 	JPanel panle;
 	JList blockList;

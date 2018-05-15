@@ -59,7 +59,7 @@ public abstract class MapState {
 		for(int x = 0; x < block.width; x++) {
 			for(int y = 0; y < block.height; y++) {
 				if(!(x == 0 && y == 0)) {
-					level.putSolid(new Point(x+point.x,y+point.y), Block.USED);
+					level.putSolid(new Point(x+point.x,y+point.y), new Block(point));
 				}
 			}
 		}
