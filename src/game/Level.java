@@ -72,10 +72,13 @@ public class Level implements Externalizable, java.io.Serializable{
 	
 	//used to load immages,animations,ect.. this level has
 	public void loadEntitys(EntityLoader loader) {
+		assert(loader != null);
 		for(Block block : solidsMap.values()) {
-			assert(block != null);
-			assert(loader != null);
-			block.loadImage(loader);
+			if(block != null && !block.used) {
+				block.loadImage(loader);
+				assert(block.img != null);
+			}
+			
 		}
 	}
 	

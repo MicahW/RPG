@@ -33,6 +33,11 @@ public abstract class MapState {
 			return;
 		}
 		
+		if(block.used) {
+			point = block.getOwnerPoint();
+			block = level.getBlock(type,point);
+		}
+		
 		for(int x = 0; x < block.width; x++) {
 			for(int y = 0; y < block.height; y++) {
 				level.putBlock(type,new Point(x+point.x,y+point.y), null);
@@ -58,7 +63,7 @@ public abstract class MapState {
 	
 		for(int x = 0; x < block.width; x++) {
 			for(int y = 0; y < block.height; y++) {
-				if(!(x == 0 && y == 0)) {
+				if(x != 0 || y != 0) {
 					level.putBlock(type,new Point(x+point.x,y+point.y), new Block(point));
 				}
 			}

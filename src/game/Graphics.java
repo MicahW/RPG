@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -27,6 +28,8 @@ public class Graphics {
 	}
 	
 	private void drawSolid(Graphics2D g2d,int type,int block_x,int block_y) {
+		//TODO set up hashmap to store rendred blocks to only render a image once
+		//right now rendering a image for every block it has
 		int x_pos =  (block_x  * Constants.BLOCK_SIZE * scale) - camara_x; 
 		int y_pos =  (block_y  * Constants.BLOCK_SIZE * scale) - camara_y;
 		
@@ -37,6 +40,9 @@ public class Graphics {
 			if(block.used == false) {
 				block.img.Draw(g2d, x_pos, y_pos, scale);
 			} else {
+				
+				
+				
 				Point ownerPoint = block.getOwnerPoint();
 				Block owner = mapState.level.getBlock(type,ownerPoint);
 				
@@ -77,7 +83,10 @@ public class Graphics {
 		int y_pos =  (block_y  * Constants.BLOCK_SIZE * scale) - camara_y;
 		
 		g2d.setPaint(color);
-		g2d.fill(new Rectangle(x_pos,y_pos,Constants.BLOCK_SIZE*scale, Constants.BLOCK_SIZE*scale));
+		
+		g2d.draw(new Rectangle(x_pos,y_pos,Constants.BLOCK_SIZE*scale, Constants.BLOCK_SIZE*scale));
+		g2d.drawLine(x_pos,y_pos,x_pos + Constants.BLOCK_SIZE * scale, y_pos + Constants.BLOCK_SIZE * scale);
+		g2d.drawLine(x_pos + Constants.BLOCK_SIZE * scale,y_pos,x_pos, y_pos + Constants.BLOCK_SIZE * scale);
 	}
 		
 	
@@ -120,11 +129,13 @@ public class Graphics {
 		//draw the solids
 		drawBlocks(g2d,Level.SOLIDS);
 		
-		if(state.start_set) {
+		if(state.start_set) 
+		{
 			drawFilledBlock(g2d, state.level.start_x, state.level.start_y, Color.PINK);
 		}
 		
 		
 		
 	}
+	
 }
