@@ -1,0 +1,7 @@
+Record of Serlization states
+
+level:
+	base: containtes just start points and hashmap of solids
+	
+block:
+	base: src,height,width,used
