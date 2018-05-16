@@ -67,7 +67,6 @@ public class Block implements Externalizable, java.io.Serializable{
 	
 	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 		String checkPoint = (String)in.readObject();
-		System.out.println(checkPoint);
 		switch (checkPoint) {
 		//switch through each checkpoint, creat less blank object as version increases
 		//last case should have a break, all others should not
@@ -87,7 +86,6 @@ public class Block implements Externalizable, java.io.Serializable{
 
 	//write the checkpoint first, then write things in reverse order that they where added to this class
 	public void writeExternal(ObjectOutput out) throws IOException {
-		System.out.println("in writing");
 		out.writeObject(new String("base"));
 		out.writeObject(src);
 		out.writeObject(width);

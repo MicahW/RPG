@@ -26,30 +26,34 @@ public class Graphics {
 		
 	}
 	
-	private void drawSolid(Graphics2D g2d,int block_x,int block_y) {
+	private void drawSolid(Graphics2D g2d,int type,int block_x,int block_y) {
 		int x_pos =  (block_x  * Constants.BLOCK_SIZE * scale) - camara_x; 
 		int y_pos =  (block_y  * Constants.BLOCK_SIZE * scale) - camara_y;
 		
 		Point point = new Point(block_x,block_y);
-		Block block = mapState.level.getSolid(point);
+		Block block = mapState.level.getBlock(type,point);
 		
 		if(block != null) {
 			if(block.used == false) {
 				block.img.Draw(g2d, x_pos, y_pos, scale);
 			} else {
 				Point ownerPoint = block.getOwnerPoint();
-				Block owner = mapState.level.getSolid(ownerPoint);
+				Block owner = mapState.level.getBlock(type,ownerPoint);
 				
 				int owner_x_pos =  (ownerPoint.x  * Constants.BLOCK_SIZE * scale) - camara_x; 
 				int ownder_y_pos =  (ownerPoint.y  * Constants.BLOCK_SIZE * scale) - camara_y;
 				
 				
+				if(owner != null && owner.img != null) { //:) fixed
+				assert(owner != null);
+				assert(owner.img != null);
 				owner.img.Draw(g2d, owner_x_pos, ownder_y_pos, scale);
+				}
 			}
 		}
 	}
 	
-	private void drawSolids(Graphics2D g2d) {
+	private void drawBlocks(Graphics2D g2d,int type) {
 
 		
 		int start_x = ((camara_x) / (Constants.BLOCK_SIZE * scale))-1;
@@ -61,14 +65,14 @@ public class Graphics {
 		
 		for(x = start_x; x < end_x; x++) {
 			for(y = start_y; y < end_y; y++) {
-				drawSolid(g2d,x,y);
+				drawSolid(g2d,type,x,y);
 			}
 		}
 		
 		
 	}
 	
-	private void drawBlock(Graphics2D g2d,int block_x, int block_y, Color color) {
+	private void drawFilledBlock(Graphics2D g2d,int block_x, int block_y, Color color) {
 		int x_pos =  (block_x  * Constants.BLOCK_SIZE * scale) - camara_x; 
 		int y_pos =  (block_y  * Constants.BLOCK_SIZE * scale) - camara_y;
 		
@@ -113,10 +117,11 @@ public class Graphics {
 		drawGrid(g2d);
 		g2d.setColor(Color.WHITE);
 		g2d.drawString(state.selection,width-120,10);
-		drawSolids(g2d);
+		//draw the solids
+		drawBlocks(g2d,Level.SOLIDS);
 		
 		if(state.start_set) {
-			drawBlock(g2d, state.level.start_x, state.level.start_y, Color.PINK);
+			drawFilledBlock(g2d, state.level.start_x, state.level.start_y, Color.PINK);
 		}
 		
 		

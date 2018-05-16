@@ -43,29 +43,32 @@ public class EditorState extends MapState implements ActionListener {
 		
 		int button_size = 140;
 		
-		addButton("Start Block",0,0,button_size,30);
-		addButton("Place Block",0,30,button_size,30);
-		addButton("Remove Block",0,60,button_size,30);
-		addButton("Save",0,90,button_size/2,30);
-		addButton("Load",button_size/2,90,button_size/2,30);
+		addButton("Start Block",0,0,button_size,20);
+		
+		addButton("Place Block",0,22,button_size,20);
+		addButton("Remove Block",0,42,button_size,20);
+		
+		addButton("Place Tile",0,64,button_size,20);
+		addButton("Remove Tile",0,84,button_size,20);
+		
+		addButton("Save",0,106,button_size/2,20);
+		addButton("Load",button_size/2,106,button_size/2,20);
 		
 		fileName = new JTextField();
-		fileName.setBounds(0,120,button_size,20);
+		fileName.setBounds(0,126,button_size,20);
 		panle.add(fileName);
 		
 		
 		String[] list = loader.getSolidsArray();
 		blockList = new JList<String>(list);
 		blockList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		blockList.setLayoutOrientation(JList.VERTICAL);
-		blockList.setVisibleRowCount(-1);
-		blockList.setBounds(0,180,150,400);
-		JScrollPane blockScroller = new JScrollPane(blockList);
+		JScrollPane blockScroller = new JScrollPane(blockList,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		blockScroller.setBounds(0,180,150,400);
-		//blockScroller.setFocusable(false);
-		blockList.setFocusable(false);
-		panle.add(blockList);
 		panle.add(blockScroller);
+		blockScroller.validate();
+
 		
 		
 		
@@ -113,12 +116,12 @@ public class EditorState extends MapState implements ActionListener {
 			if(id == null) {
 				System.out.println("no selected value");
 			} else {
-				addSolid(id,block);
+				addBlock(Level.SOLIDS,id,block);
 			}
 			break;
 		
 		case "Remove Block":
-			removeSolid(block);
+			removeBlock(Level.SOLIDS,block);
 			
 		}
 			

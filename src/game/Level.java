@@ -15,23 +15,39 @@ import java.util.HashMap;
 public class Level implements Externalizable, java.io.Serializable{
 	private static final long serialVersionUID = 23L;
 	
+	static final int SOLIDS = 1;
+	static final int TILES = 2;
 	
 	int start_x;
 	int start_y;
 	
 	//variables used to store map
 	HashMap<Point,Block> solidsMap;
+	HashMap<Point,Block> tilesMap;
+	
+	
+	private HashMap<Point,Block> getHashMap(int id) {
+		switch (id) {
+		case SOLIDS:
+			return solidsMap;
+		case TILES:
+			return tilesMap;
+		}
+		assert(false);
+		return null;
+	}
 	
 	public Level() {
 		solidsMap = new HashMap<Point,Block>();
+		tilesMap = new HashMap<Point,Block>();
 	}
 	
-	public void putSolid(Point p, Block b) {
-		solidsMap.put(p, b);
+	public void putBlock(int id,Point p, Block b) {
+		getHashMap(id).put(p, b);
 	}
 	
-	public Block getSolid(Point p) {
-		return solidsMap.get(p);
+	public Block getBlock(int id,Point p) {
+		return getHashMap(id).get(p);
 	}
 	
 	public boolean saveLevel(String name) {
@@ -95,12 +111,12 @@ public class Level implements Externalizable, java.io.Serializable{
 	@Override
 	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 		String checkPoint = (String)in.readObject();
-		System.out.println(checkPoint);
 		switch (checkPoint) {
 		//switch through each checkpoint, creat less blank object as version increases
 		//last case should have a break, all others should not
 		case "base":
 			solidsMap = (HashMap<Point,Block>) in.readObject();
+			tilesMap = (HashMap<Point,Block>) in.readObject();
 			start_x = (int) in.readObject();
 			start_y = (int) in.readObject();
 			break;
@@ -114,9 +130,9 @@ public class Level implements Externalizable, java.io.Serializable{
 
 	//write the checkpoint first, then write things in reverse order that they where added to this class
 	public void writeExternal(ObjectOutput out) throws IOException {
-		System.out.println("in writing");
 		out.writeObject(new String("base"));
 		out.writeObject(solidsMap);
+		out.writeObject(tilesMap);
 		out.writeObject(start_x);
 		out.writeObject(start_y);
 	}

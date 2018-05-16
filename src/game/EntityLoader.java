@@ -22,10 +22,12 @@ public class EntityLoader {
 	HashMap<String,Object> primaryMap;
 	
 	ArrayList<String> solids;
+	ArrayList<String> tiles;
 	
 	public EntityLoader() {
 		primaryMap = new HashMap<String,Object>();
 		solids = new ArrayList<String>();
+		tiles = new ArrayList<String>();
 		
 		loadImages("solids",solids);
 		loadAnimations();
@@ -33,6 +35,10 @@ public class EntityLoader {
 	}
 	
 	public String[] getSolidsArray() {
+		return solids.toArray(new String[solids.size()]);
+	}
+	
+	public String[] getTilesArray() {
 		return solids.toArray(new String[solids.size()]);
 	}
 	
