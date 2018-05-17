@@ -46,6 +46,19 @@ public class Level implements Externalizable, java.io.Serializable{
 		getHashMap(id).put(p, b);
 	}
 	
+	public Block getBlockOrOwner(int id,Point p) {
+		Block block = getBlock(id,p);
+		
+		if(block == null || block.used == false) {
+			return block;
+		}
+		
+		p = block.getOwnerPoint();
+		block = getBlock(id,p);
+		
+		return block;
+	}
+	
 	public Block getBlock(int id,Point p) {
 		return getHashMap(id).get(p);
 	}
@@ -73,7 +86,18 @@ public class Level implements Externalizable, java.io.Serializable{
 	//used to load immages,animations,ect.. this level has
 	public void loadEntitys(EntityLoader loader) {
 		assert(loader != null);
+		
+		//load tiles
 		for(Block block : solidsMap.values()) {
+			if(block != null && !block.used) {
+				block.loadImage(loader);
+				assert(block.img != null);
+			}
+			
+		}
+		
+		//load blocks
+		for(Block block : tilesMap.values()) {
 			if(block != null && !block.used) {
 				block.loadImage(loader);
 				assert(block.img != null);

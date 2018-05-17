@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Graphics2D;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,10 +24,14 @@ public class EditorState extends MapState implements ActionListener {
 	
 	boolean draw_grid = true;
 	
+	boolean render_solids = true;
+	boolean render_tiles = true;
+	
 	private static int  CAMARA_SPEED = 10;
 	
 	JPanel panle;
 	JList blockList;
+	JList tilesList;
 	JTextField fileName;
 	
 	ArrayList<JButton> buttons;
@@ -41,33 +46,32 @@ public class EditorState extends MapState implements ActionListener {
 		this.panle = panle;
 		selection = "nothing";
 		
-		int button_size = 140;
+		int button_size = 120;
+		int button_start = 150;
 		
-		addButton("Start Block",0,0,button_size,20);
+		addButton("Start Block",0+button_start,0,button_size,20);
+		addButton("B",0+button_start,20,40,20);
+		addButton("S",40+button_start,20,40,20);
+		addButton("T",80+button_start,20,40,20);
 		
-		addButton("Place Block",0,22,button_size,20);
-		addButton("Remove Block",0,42,button_size,20);
+		addButton("Place Block",button_size+button_start,0,button_size,20);
+		addButton("Remove Block",button_size+button_start,20,button_size,20);
 		
-		addButton("Place Tile",0,64,button_size,20);
-		addButton("Remove Tile",0,84,button_size,20);
 		
-		addButton("Save",0,106,button_size/2,20);
-		addButton("Load",button_size/2,106,button_size/2,20);
+		addButton("Place Tile",2*button_size+button_start,0,button_size,20);
+		addButton("Remove Tile",2*button_size+button_start,20,button_size,20);
+				
+		addButton("Save",3*button_size+button_start,0,button_size/2,20);
+		addButton("Load",(int)(3.5*button_size)+button_start,0,button_size/2,20);
 		
 		fileName = new JTextField();
-		fileName.setBounds(0,126,button_size,20);
+		fileName.setBounds(3*button_size+button_start,20,button_size,20);
 		panle.add(fileName);
 		
 		
-		String[] list = loader.getSolidsArray();
-		blockList = new JList<String>(list);
-		blockList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		JScrollPane blockScroller = new JScrollPane(blockList,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		blockScroller.setBounds(0,180,150,400);
-		panle.add(blockScroller);
-		blockScroller.validate();
+		blockList = addList(loader.getSolidsArray(),0,0,150,364);
+		tilesList = addList(loader.getTilesArray(),0,364,150,364);
+		
 
 		
 		
@@ -75,11 +79,25 @@ public class EditorState extends MapState implements ActionListener {
 		
 	}
 	
+	private JList addList(String[] arr, int x, int y, int width, int height) {
+		JList list = new JList<String>(arr);
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JScrollPane scroller = new JScrollPane(list,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scroller.setBounds(x,y,width,height);
+		panle.add(scroller);
+		scroller.validate();
+		return list;
+
+	}
+	
 	private JButton addButton(String name,int x,int y, int width, int height) {
 		JButton botton = new JButton(name);
 		botton.setBounds(x,y,width,height);
 		botton.setFocusable(false);
 		botton.addActionListener(this);
+		botton.setMargin(new Insets(1,1,1,1));
 		buttons.add(botton);
 		panle.add(botton);
 		return botton;
@@ -122,6 +140,21 @@ public class EditorState extends MapState implements ActionListener {
 		
 		case "Remove Block":
 			removeBlock(Level.SOLIDS,block);
+			break;
+		
+		case "Place Tile":
+			id = (String)tilesList.getSelectedValue();
+			if(id == null) {
+				System.out.println("no selected value");
+			} else {
+				addBlock(Level.TILES,id,block);
+			}
+			break;
+		
+		case "Remove Tile":
+			removeBlock(Level.TILES,block);
+			break;
+
 			
 		}
 			
@@ -162,6 +195,14 @@ public class EditorState extends MapState implements ActionListener {
 		
 		if(keyboardState[KeyEvent.VK_D]) {
 			selection = "Remove Block";
+		}
+		
+		if(keyboardState[KeyEvent.VK_R]) {
+			selection = "Place Tile";
+		}
+		
+		if(keyboardState[KeyEvent.VK_E]) {
+			selection = "Remove Tile";
 		}
 	}
 	
@@ -208,6 +249,23 @@ public class EditorState extends MapState implements ActionListener {
 				selection = "Failed to Load: " + fileName.getText() + "!!!";
 			}
 			break;
+			
+		case "B":
+			render_solids = true;
+			render_tiles = true;
+			break;
+		
+		case "S":
+			render_solids = true;
+			render_tiles = false;
+			break;
+		
+		case "T":
+			render_solids = false;
+			render_tiles = true;
+			break;
+		
+		
 			
 		default:
 			selection = command;

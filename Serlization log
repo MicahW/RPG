@@ -1,7 +1,7 @@
 Record of Serlization states
 
 level:
-	base: containtes just start points and hashmap of solids
+	base: containtes just start points and hashmap of solids and tiles
 	
 block:
 	base: src,height,width,used

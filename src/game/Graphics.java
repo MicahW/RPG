@@ -20,7 +20,7 @@ public class Graphics {
 	
 	int screen_width;
 	int screen_height;
-	
+		
 	MapState mapState;
 	
 	public Graphics() {
@@ -127,7 +127,14 @@ public class Graphics {
 		g2d.setColor(Color.WHITE);
 		g2d.drawString(state.selection,width-120,10);
 		//draw the solids
-		drawBlocks(g2d,Level.SOLIDS);
+		
+		if(state.render_tiles) {
+			drawBlocks(g2d,Level.TILES);
+		}
+		
+		if(state.render_solids) {
+			drawBlocks(g2d,Level.SOLIDS);
+		}
 		
 		if(state.start_set) 
 		{

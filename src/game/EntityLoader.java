@@ -30,6 +30,7 @@ public class EntityLoader {
 		tiles = new ArrayList<String>();
 		
 		loadImages("solids",solids);
+		loadImages("tiles",tiles);
 		loadAnimations();
 		
 	}
@@ -39,7 +40,7 @@ public class EntityLoader {
 	}
 	
 	public String[] getTilesArray() {
-		return solids.toArray(new String[solids.size()]);
+		return tiles.toArray(new String[tiles.size()]);
 	}
 	
 	
@@ -68,7 +69,7 @@ public class EntityLoader {
 					BufferedImage img = ImageIO.read(file);
 					Image image = new Image(img);
 					String str = file.getName().replaceAll(".png", "");
-					solids.add(str);
+					images.add(str);
 					primaryMap.put(str,image);
 				} catch (IOException e) {
 					System.out.println("Failed to load image");
