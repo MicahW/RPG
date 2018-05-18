@@ -112,6 +112,19 @@ public class Graphics {
 		
 	}
 	
+	private void drawRightDrag(EditorState state, Graphics2D g2d) {
+		if(!state.rightClickHeld) {
+			return;
+		}
+		
+		int x = state.startOfRightClick.x;
+		int y = state.startOfRightClick.y;
+		int width = state.currentMousePosition.x - x;
+		int height = state.currentMousePosition.y - y;
+		
+		g2d.draw(new Rectangle(x,y,width,height));
+	}
+	
 	public void renderEditor (EditorState state, Graphics2D g2d,int width, int height) {
 		camara_x = state.camara_x;
 		camara_y = state.camara_y;
@@ -140,6 +153,8 @@ public class Graphics {
 		{
 			drawFilledBlock(g2d, state.level.start_x, state.level.start_y, Color.PINK);
 		}
+		
+		drawRightDrag(state,g2d);
 		
 		
 		

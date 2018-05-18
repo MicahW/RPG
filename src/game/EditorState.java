@@ -17,28 +17,38 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 public class EditorState extends MapState implements ActionListener {
+	
+	//camara and scale state
 	public int camara_x = 0;
 	public int camara_y = 0;
 	
 	public int scale = 2;
 	
+	private static int CAMARA_SPEED = 10;
+	
+	//graphcis options
 	boolean draw_grid = true;
 	
 	boolean render_solids = true;
 	boolean render_tiles = true;
 	
-	private static int  CAMARA_SPEED = 10;
 	
+	//swing elements / ui
 	JPanel panle;
 	JList blockList;
 	JList tilesList;
 	JTextField fileName;
 	
 	ArrayList<JButton> buttons;
-
-	String selection;
 	
+	//editor info
+	String selection;
 	boolean start_set = false;
+	
+	//right click info
+	boolean rightClickHeld = false;
+	Point startOfRightClick;
+	Point currentMousePosition;
 	
 	public EditorState(EntityLoader loader,JPanel panle) {	
 		super(loader);
@@ -88,6 +98,8 @@ public class EditorState extends MapState implements ActionListener {
 		scroller.setBounds(x,y,width,height);
 		panle.add(scroller);
 		scroller.validate();
+		list.setFocusable(false);
+		scroller.setFocusable(false);
 		return list;
 
 	}
@@ -117,6 +129,27 @@ public class EditorState extends MapState implements ActionListener {
 		
 		return new Point(block_x,block_y);
 	}
+	
+	private void processRightClick(Point mousePosition, boolean mouseState) {
+		//if just started the right click drag
+		if(mouseState == true && rightClickHeld == false) {
+			rightClickHeld = true;
+			startOfRightClick = mousePosition;
+		}
+		
+		//if still dragin
+		if(rightClickHeld == true) {
+			currentMousePosition = mousePosition;
+		}
+		
+		//if realesing the right click after draging it
+		if(mouseState == false && rightClickHeld == true) {
+			rightClickHeld = false;
+			//TODO process the blocks in the area
+			
+		}
+	}
+	
 	
 	private void processClick(Point mousePosition) {
 		Point block = getClickedBlock(mousePosition);
@@ -215,6 +248,9 @@ public class EditorState extends MapState implements ActionListener {
 			//mouseState[0] = false;
 			processClick(mousePosition);
 		}
+		
+		//System.out.println("(" + Integer.toString(mousePosition.x) + "," + Integer.toString(mousePosition.y) + ") " + mouseState[2]);
+		processRightClick(mousePosition,mouseState[2]);
 		
 	}
 

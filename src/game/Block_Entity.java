@@ -1,7 +1,6 @@
 package game;
 
 import java.awt.Point;
-import java.util.HashMap;
 
 public class Block_Entity {
 	//
