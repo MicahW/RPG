@@ -145,7 +145,29 @@ public class EditorState extends MapState implements ActionListener {
 		//if realesing the right click after draging it
 		if(mouseState == false && rightClickHeld == true) {
 			rightClickHeld = false;
-			//TODO process the blocks in the area
+			
+
+			int x = startOfRightClick.x;
+			int y = startOfRightClick.y;
+			int width = currentMousePosition.x - x;
+			int height = currentMousePosition.y - y;
+			
+			if(width < 0) {
+				x += width;
+				width *= -1;
+			}
+			
+			if(height < 0) {
+				y += height;
+				height *= -1;
+			}
+			
+			for(int x_pos = x; x_pos < (x+width); x_pos += (Constants.BLOCK_SIZE * scale)) {
+				for(int y_pos = y; y_pos < (y+height); y_pos += (Constants.BLOCK_SIZE * scale)) {
+					processClick(new Point(x_pos,y_pos));
+				}
+			}
+		
 			
 		}
 	}

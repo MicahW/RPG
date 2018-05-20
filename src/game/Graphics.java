@@ -122,6 +122,17 @@ public class Graphics {
 		int width = state.currentMousePosition.x - x;
 		int height = state.currentMousePosition.y - y;
 		
+		if(width < 0) {
+			x += width;
+			width *= -1;
+		}
+		
+		if(height < 0) {
+			y += height;
+			height *= -1;
+		}
+		
+		g2d.setPaint(Color.BLUE);
 		g2d.draw(new Rectangle(x,y,width,height));
 	}
 	
