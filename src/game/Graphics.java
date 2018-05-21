@@ -8,6 +8,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
@@ -23,6 +24,7 @@ public class Graphics {
 		
 	MapState mapState;
 	
+	HashMap<Point,Boolean> renderedMap;
 	
 	public Graphics() {
 		
@@ -41,8 +43,16 @@ public class Graphics {
 			if(block.used == false) {
 				block.img.Draw(g2d, x_pos, y_pos, scale);
 				
+				renderedMap.put(point,true);
+				
 				if(block.fade) {
-					drawFilledBlock(g2d,block_x,block_y,Color.GREEN);
+					for(int x = 0; x < block.width; x++) {
+						for(int y = 0; y < block.height; y++) {
+							drawFilledBlock(g2d,block_x + x,
+									block_y + y,Color.GREEN);
+						}
+					}
+					
 				}
 			} else {
 				
@@ -50,6 +60,11 @@ public class Graphics {
 				
 				Point ownerPoint = block.getOwnerPoint();
 				Block owner = mapState.level.getBlock(type,ownerPoint);
+				
+				//if this was already drawn to the screen
+				if(renderedMap.containsKey(ownerPoint)) {
+					return;
+				}
 				
 				int owner_x_pos =  (ownerPoint.x  * Constants.BLOCK_SIZE * scale) - camara_x; 
 				int ownder_y_pos =  (ownerPoint.y  * Constants.BLOCK_SIZE * scale) - camara_y;
@@ -66,6 +81,7 @@ public class Graphics {
 	
 	private void drawBlocks(Graphics2D g2d,int type) {
 
+		renderedMap = new HashMap<Point,Boolean>();
 		
 		int start_x = ((camara_x) / (Constants.BLOCK_SIZE * scale))-1;
 		int start_y = ((camara_y) / (Constants.BLOCK_SIZE * scale))-1;
