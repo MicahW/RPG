@@ -23,6 +23,7 @@ public class Graphics {
 		
 	MapState mapState;
 	
+	
 	public Graphics() {
 		
 	}
@@ -39,6 +40,10 @@ public class Graphics {
 		if(block != null) {
 			if(block.used == false) {
 				block.img.Draw(g2d, x_pos, y_pos, scale);
+				
+				if(block.fade) {
+					drawFilledBlock(g2d,block_x,block_y,Color.GREEN);
+				}
 			} else {
 				
 				
@@ -136,6 +141,23 @@ public class Graphics {
 		g2d.draw(new Rectangle(x,y,width,height));
 	}
 	
+	private void drawInfo(Graphics2D g2d, EditorState state) {
+		int width = 120;
+		int height = 120;
+		int string_pos = 100;
+		
+		g2d.setColor(Color.BLACK);
+		g2d.fill(new Rectangle(screen_width - width,0,width,height));
+		g2d.setColor(Color.WHITE);
+		g2d.drawString("Slt: " + state.selection,screen_width-string_pos,10);
+		g2d.drawString("Fade: " + Boolean.toString(state.set_fade),screen_width - string_pos,30);
+		g2d.drawString("Draw Solids: " + Boolean.toString(state.render_solids),screen_width - string_pos,50);
+		g2d.drawString("Draw Tiles: " + Boolean.toString(state.render_tiles),screen_width - string_pos,70);
+
+		
+
+	}
+	
 	public void renderEditor (EditorState state, Graphics2D g2d,int width, int height) {
 		camara_x = state.camara_x;
 		camara_y = state.camara_y;
@@ -148,8 +170,7 @@ public class Graphics {
 		mapState = state;
 		
 		drawGrid(g2d);
-		g2d.setColor(Color.WHITE);
-		g2d.drawString(state.selection,width-120,10);
+		
 		//draw the solids
 		
 		if(state.render_tiles) {
@@ -166,6 +187,8 @@ public class Graphics {
 		}
 		
 		drawRightDrag(state,g2d);
+		drawInfo(g2d,state);
+				
 		
 		
 		

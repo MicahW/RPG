@@ -46,8 +46,9 @@ public abstract class MapState {
 	}
 	
 	//add a block to the levelMap, or if one avalible then change it
-	protected void addBlock(int type, String src, Point point) {
+	protected void addBlock(int type, String src, Point point, Boolean fade) {
 		Block block = new Block();
+		block.fade = fade;
 		block.setSrc(src, loader);
 		
 		for(int x = 0; x < block.width; x++) {

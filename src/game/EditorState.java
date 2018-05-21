@@ -16,6 +16,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+
+//this is the level editor for the game, this holds all the information for 
+//creating a level and the swing elements used to interact with the level editor
 public class EditorState extends MapState implements ActionListener {
 	
 	//camara and scale state
@@ -44,6 +47,7 @@ public class EditorState extends MapState implements ActionListener {
 	//editor info
 	String selection;
 	boolean start_set = false;
+	boolean set_fade;
 	
 	//right click info
 	boolean rightClickHeld = false;
@@ -71,11 +75,14 @@ public class EditorState extends MapState implements ActionListener {
 		addButton("Place Tile",2*button_size+button_start,0,button_size,20);
 		addButton("Remove Tile",2*button_size+button_start,20,button_size,20);
 				
-		addButton("Save",3*button_size+button_start,0,button_size/2,20);
-		addButton("Load",(int)(3.5*button_size)+button_start,0,button_size/2,20);
+		addButton("Fade",3*button_size+button_start,0,button_size/2,20);
+		addButton("No Fade",(int)(3.5*button_size)+button_start,0,button_size/2,20);
+		
+		addButton("Save",4*button_size+button_start,0,button_size/2,20);
+		addButton("Load",(int)(4.5*button_size)+button_start,0,button_size/2,20);
 		
 		fileName = new JTextField();
-		fileName.setBounds(3*button_size+button_start,20,button_size,20);
+		fileName.setBounds(4*button_size+button_start,20,button_size,20);
 		panle.add(fileName);
 		
 		
@@ -89,6 +96,7 @@ public class EditorState extends MapState implements ActionListener {
 		
 	}
 	
+	//create a Jlist from a list of stringsd
 	private JList addList(String[] arr, int x, int y, int width, int height) {
 		JList list = new JList<String>(arr);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -104,6 +112,7 @@ public class EditorState extends MapState implements ActionListener {
 
 	}
 	
+	//add a button to the level editor
 	private JButton addButton(String name,int x,int y, int width, int height) {
 		JButton botton = new JButton(name);
 		botton.setBounds(x,y,width,height);
@@ -115,6 +124,7 @@ public class EditorState extends MapState implements ActionListener {
 		return botton;
 	}
 	
+	//get the block clicked based of the mouse point
 	private Point getClickedBlock(Point mousePosition) {
 		int block_x = (mousePosition.x + camara_x) / (Constants.BLOCK_SIZE * scale);
 		int block_y = (mousePosition.y + camara_y) / (Constants.BLOCK_SIZE * scale);
@@ -130,6 +140,8 @@ public class EditorState extends MapState implements ActionListener {
 		return new Point(block_x,block_y);
 	}
 	
+	//process a user holding the right click and draging it
+	//area of drag acts as if user clicked everyblock in the reactangle
 	private void processRightClick(Point mousePosition, boolean mouseState) {
 		//if just started the right click drag
 		if(mouseState == true && rightClickHeld == false) {
@@ -172,7 +184,7 @@ public class EditorState extends MapState implements ActionListener {
 		}
 	}
 	
-	
+	//figure out what a click should do based on the state of selection and do it
 	private void processClick(Point mousePosition) {
 		Point block = getClickedBlock(mousePosition);
 		
@@ -189,7 +201,7 @@ public class EditorState extends MapState implements ActionListener {
 			if(id == null) {
 				System.out.println("no selected value");
 			} else {
-				addBlock(Level.SOLIDS,id,block);
+				addBlock(Level.SOLIDS,id,block,set_fade);
 			}
 			break;
 		
@@ -202,7 +214,7 @@ public class EditorState extends MapState implements ActionListener {
 			if(id == null) {
 				System.out.println("no selected value");
 			} else {
-				addBlock(Level.TILES,id,block);
+				addBlock(Level.TILES,id,block,false);
 			}
 			break;
 		
@@ -215,6 +227,7 @@ public class EditorState extends MapState implements ActionListener {
 			
 	}
 	
+	//process keyboard input(ie. shurtcuts)
 	private void processKeys(boolean[] keyboardState) {
 		int speed = CAMARA_SPEED;
 		
@@ -261,6 +274,7 @@ public class EditorState extends MapState implements ActionListener {
 		}
 	}
 	
+	
 	@Override
 	public void Update(long gameTime, Point mousePosition, boolean[] mouseState, boolean[] keyboardState) {
 		
@@ -283,6 +297,7 @@ public class EditorState extends MapState implements ActionListener {
 	}
 
 	@Override
+	//this will process when userss click buttons
 	public void actionPerformed(ActionEvent arg0) {
 		String command = arg0.getActionCommand();
 		
@@ -323,7 +338,13 @@ public class EditorState extends MapState implements ActionListener {
 			render_tiles = true;
 			break;
 		
+		case "Fade":
+			set_fade = true;
+			break;
 		
+		case "No Fade":
+			set_fade = false;
+			break;
 			
 		default:
 			selection = command;

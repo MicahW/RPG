@@ -8,14 +8,13 @@ import java.io.ObjectOutput;
 import java.util.HashMap;
 
 
-
+//a block represents a wall, tile, or celling in the game, they have widths and heights that are multiples of BLOCK_SIZE
 public class Block implements Externalizable, java.io.Serializable{
 	private static final long serialVersionUID = 24L;
 	
 	
 	transient Image img;
 	String src;
-	//solid width and height, others to not matter
 	int width;
 	int height;
 	
@@ -23,6 +22,9 @@ public class Block implements Externalizable, java.io.Serializable{
 	//if this is the case then width and height will be block cords for block
 	// this is a part of.
 	boolean used;
+	
+	//designate this block to fade when a player comes near it
+	boolean fade;
 	
 	
 	public static final Block USED = new Block();
@@ -37,6 +39,7 @@ public class Block implements Externalizable, java.io.Serializable{
 		height = owner.y;
 	}
 	
+	//get the x and y coridnates of the owner of this block;
 	public Point getOwnerPoint() {
 		if(used == false) {
 			return null;
