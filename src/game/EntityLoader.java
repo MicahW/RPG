@@ -58,7 +58,7 @@ public class EntityLoader {
 	}
 	
 	private void loadImages(String path, ArrayList<String> images) {
-		File[] files = new File("recourses/imgs/" + path).listFiles();
+		File[] files = new File("resources/imgs/" + path).listFiles();
 		if(files == null) {
 			System.out.println("failed to open: " + path);
 			return;
@@ -82,7 +82,7 @@ public class EntityLoader {
 	
 	private void loadAnimations() {
 		try {
-			FileInputStream stream = new FileInputStream("recourses/entities/animations.json");
+			FileInputStream stream = new FileInputStream("resources/entities/animations.json");
 			String jsonTxt = IOUtils.toString(stream,"UTF-8");
 			JSONObject obj = new JSONObject(jsonTxt);   
 			 
