@@ -197,7 +197,7 @@ public class Graphics {
 			drawBlocks(g2d,Level.SOLIDS);
 		}
 		
-		if(state.start_set) 
+		if(state.level.start_selected) 
 		{
 			drawFilledBlock(g2d, state.level.start_x, state.level.start_y, Color.PINK);
 		}

@@ -46,7 +46,6 @@ public class EditorState extends MapState implements ActionListener {
 	
 	//editor info
 	String selection;
-	boolean start_set = false;
 	boolean set_fade;
 	
 	//right click info
@@ -193,7 +192,7 @@ public class EditorState extends MapState implements ActionListener {
 		case "Start Block":
 			level.start_x = block.x;
 			level.start_y = block.y;
-			start_set = true;
+			level.start_selected = true;
 			break;
 			
 		case "Place Block":

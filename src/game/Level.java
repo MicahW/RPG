@@ -20,6 +20,7 @@ public class Level implements Externalizable, java.io.Serializable{
 	
 	int start_x;
 	int start_y;
+	boolean start_selected;
 	
 	//variables used to store map
 	HashMap<Point,Block> solidsMap;
@@ -146,6 +147,7 @@ public class Level implements Externalizable, java.io.Serializable{
 			tilesMap = (HashMap<Point,Block>) in.readObject();
 			start_x = (int) in.readObject();
 			start_y = (int) in.readObject();
+			start_selected = (boolean) in.readObject();
 			break;
 		default:
 			System.out.println("ERROR: something has gone wronge with level object loading in checkpoint");
@@ -162,6 +164,7 @@ public class Level implements Externalizable, java.io.Serializable{
 		out.writeObject(tilesMap);
 		out.writeObject(start_x);
 		out.writeObject(start_y);
+		out.writeObject(start_selected);
 	}
 	
 	

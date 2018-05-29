@@ -78,6 +78,7 @@ public class Block implements Externalizable, java.io.Serializable{
 			width = (int) in.readObject();
 			height = (int) in.readObject();
 			used = (boolean) in.readObject();
+			fade = (boolean) in.readObject();
 			break;
 		default:
 			System.out.println("ERROR: something has gone wronge with level object loading in checkpoint in Block Object");
@@ -94,6 +95,7 @@ public class Block implements Externalizable, java.io.Serializable{
 		out.writeObject(width);
 		out.writeObject(height);
 		out.writeObject(used);
+		out.writeObject(fade);
 	}
 	
 	
