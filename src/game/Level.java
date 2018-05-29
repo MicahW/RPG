@@ -65,7 +65,7 @@ public class Level implements Externalizable, java.io.Serializable{
 	
 	public boolean saveLevel(String name) {
 		try {
-			String path = "recourses/levels/" + name + ".map";
+			String path = "resources/levels/" + name + ".map";
 			FileOutputStream fileOut = new FileOutputStream(path);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(this);
@@ -108,7 +108,7 @@ public class Level implements Externalizable, java.io.Serializable{
 	
 	static public Level loadLevel(String name, EntityLoader loader) {
 		Level level;
-		String path = "recourses/levels/" + name + ".map";
+		String path = "resources/levels/" + name + ".map";
 		
 		try {
 			

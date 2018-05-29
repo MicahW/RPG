@@ -20,7 +20,7 @@ public abstract class Entity {
 	private Animation animation;
 	
 	
-	private EntityRecourse health,stamina,mana;
+	private EntityResource health,stamina,mana;
 	
 	private ArrayList<Skill> skills;
 	

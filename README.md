@@ -1,6 +1,6 @@
 This project is simple 2d platformer rpg game writin in java using AWT graphics.
 
-The contents of the git repositary contain only the source folder and recouses used
+The contents of the git repositary contain only the source folder and resources used
 by the program such as images.
 
 To build the project you will need to download the following jar files and add 
