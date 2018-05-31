@@ -1,7 +1,7 @@
 {
 	"sheets":[
 		{"image":"testMotion", "width":16, "height":16, "padding":0, "animations":[
-			{"id":"base", "time":100, "number":4}
+			{"id":"base", "time":400, "number":4}
 		]}
 	]
 }

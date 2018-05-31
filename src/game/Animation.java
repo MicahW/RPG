@@ -3,6 +3,8 @@ package game;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import gameframework.Framework;
+
 /**
  * Class for animations, e.g. explosion.
  * 
@@ -23,8 +25,11 @@ public class Animation extends Image {
     // Time when the frame started showing. (We use this to calculate the time for the next frame.)
     private long startingFrameTime;
 
-    // Time when we show next frame. (When current time is equal or greater then time in "timeForNextFrame", it's time to move to the next frame of the animation.)
-    private long timeForNextFrame;
+    //number of ticks each frame gets
+    private long[] frameTickAmount;
+    
+    // how many ticks should go by before the image is switched to the next frame
+    private long ticksUntilNextFrame;
 
     // Current frame number.
     private int currentFrameNumber;
@@ -41,12 +46,6 @@ public class Animation extends Image {
     /** State of animation. Is it still active or is it finished? We need this so that we can check and delete animation when is it finished. */
     public boolean active;
     
-    // In milliseconds. How long to wait before starting the animation and displaying it?
-    private long showDelay;
-    
-    // At what time was animation created.
-    private long timeOfAnimationCration;
-
 
     /**
      * Creates animation.
@@ -65,7 +64,7 @@ public class Animation extends Image {
     
     
     
-    public Animation(BufferedImage animImage, int frameWidth, int frameHeight,int animationNumber, int[] numberOfFrames, long[] frameTime, boolean loop, long showDelay)
+    public Animation(BufferedImage animImage, int frameWidth, int frameHeight,int animationNumber, int[] numberOfFrames, long[] frameTime, boolean loop)
     {
     	super(animImage);
     	
@@ -77,33 +76,35 @@ public class Animation extends Image {
         this.frameTime = frameTime;
         this.loop = loop;
 
-        this.showDelay = showDelay;
         
-        timeOfAnimationCration = System.currentTimeMillis();
 
         startingXOfFrameInImage = 0;
         endingXOfFrameInImage = frameWidth;
 
-        startingFrameTime = System.currentTimeMillis() + showDelay;
-        timeForNextFrame = startingFrameTime + this.frameTime[animationNumber];
+        frameTickAmount = new long[numberOfFrames.length];
+        for(int ani_num = 0; ani_num < numberOfFrames.length; ani_num++) {
+        	long game_update_period = Framework.GAME_UPDATE_PERIOD / Framework.milisecInNanosec;
+        	long time_per_frame = frameTime[ani_num] / numberOfFrames[ani_num];
+        	long ticks_per_frame = time_per_frame/game_update_period;
+        	frameTickAmount[ani_num] = ticks_per_frame;  
+        }
+        
+        ticksUntilNextFrame = frameTickAmount[animationNumber];
         currentFrameNumber = 0;
         active = true;
     }
     
     public Image Copy() {
-    	return new Animation(this.animImage,this.frameWidth,this.frameHeight,this.animationNumber,this.numberOfFrames,this.frameTime,this.loop, 0);
+    	return new Animation(this.animImage,this.frameWidth,this.frameHeight,this.animationNumber,this.numberOfFrames,this.frameTime,this.loop);
     }
     
     
-    public void setAnimation(int animationNumber, boolean loop, long showDelay) {
+    public void setAnimation(int animationNumber, boolean loop) {
     	this.animationNumber = animationNumber;
     	this.loop = loop;
     	
+    	this.ticksUntilNextFrame = 0;
     	
-    	timeOfAnimationCration = System.currentTimeMillis();
-
-        startingFrameTime = System.currentTimeMillis() + showDelay;
-        timeForNextFrame = startingFrameTime + this.frameTime[animationNumber];
         currentFrameNumber = 0;
         active = true;
     }
@@ -116,7 +117,8 @@ public class Animation extends Image {
      */
     private void Update()
     {
-        if(timeForNextFrame <= System.currentTimeMillis())
+    	ticksUntilNextFrame--;
+        if(ticksUntilNextFrame == 0) 
         {
             // Next frame.
             currentFrameNumber++;
@@ -137,7 +139,7 @@ public class Animation extends Image {
 
             // Set time for the next frame.
             startingFrameTime = System.currentTimeMillis();
-            timeForNextFrame = startingFrameTime + frameTime[animationNumber];
+            ticksUntilNextFrame = frameTickAmount[animationNumber];
         }
     }
     
@@ -150,11 +152,8 @@ public class Animation extends Image {
      */
     public void Draw(Graphics2D g2d,int x, int y, int scale)
     {
-        this.Update();
-        
-        // Checks if show delay is over.
-        if(this.timeOfAnimationCration + this.showDelay <= System.currentTimeMillis())
-            g2d.drawImage(animImage, x, y, x + (scale * frameWidth), y + (scale *frameHeight), startingXOfFrameInImage, 
-            		animationNumber * frameWidth, endingXOfFrameInImage, frameHeight * (animationNumber + 1), null);
+        this.Update();   
+        g2d.drawImage(animImage, x, y, x + (scale * frameWidth), y + (scale *frameHeight), startingXOfFrameInImage, 
+            animationNumber * frameWidth, endingXOfFrameInImage, frameHeight * (animationNumber + 1), null);
     }
 }

@@ -40,11 +40,11 @@ public class Framework extends Canvas {
      * FPS - Frames per second
      * How many times per second the game should update?
      */
-    private final int GAME_FPS = 30;
+    private static final int GAME_FPS = 30;
     /**
      * Pause between updates. It is in nanoseconds.
      */
-    private final long GAME_UPDATE_PERIOD = secInNanosec / GAME_FPS;
+    public static final long GAME_UPDATE_PERIOD = secInNanosec / GAME_FPS;
     
     /**
      * Possible states of the game

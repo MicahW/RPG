@@ -113,7 +113,7 @@ public class EntityLoader {
 				if(oldImage == null) {
 					System.out.println("failed to get the image for animation: " + imgStr);
 				} else {
-					Animation animation = new Animation(oldImage.animImage,width,height,0,numbers,frameTimes,true,0);
+					Animation animation = new Animation(oldImage.animImage,width,height,0,numbers,frameTimes,true);
 					primaryMap.put(imgStr, animation);
 				}
 				
